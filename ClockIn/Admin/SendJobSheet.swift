@@ -1,9 +1,12 @@
 import SwiftUI
+import MapKit
 
 struct SendJobSheet: View {
     var onCreated: () -> Void
 
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var completer = AddressCompleter()
+    @StateObject private var location = LocationManager()
     @State private var title = ""
     @State private var address = ""
     @State private var notes = ""
@@ -13,15 +16,47 @@ struct SendJobSheet: View {
     @State private var selected: Set<UUID> = []
     @State private var isSaving = false
     @State private var errorMessage: String?
+    @State private var didPickSuggestion = false
 
     var body: some View {
         NavigationStack {
             Form {
                 Section("Job") {
                     TextField("Title (e.g. Brooklyn site walkthrough)", text: $title)
+
                     TextField("Address", text: $address)
                         .textInputAutocapitalization(.words)
+                        .autocorrectionDisabled()
+                        .onChange(of: address) { _, new in
+                            if didPickSuggestion {
+                                didPickSuggestion = false
+                            } else {
+                                completer.update(query: new)
+                            }
+                        }
+
+                    if !completer.suggestions.isEmpty {
+                        ForEach(completer.suggestions, id: \.self) { suggestion in
+                            Button {
+                                didPickSuggestion = true
+                                address = completer.formatted(suggestion)
+                                completer.suggestions = []
+                            } label: {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(suggestion.title)
+                                        .foregroundStyle(.primary)
+                                    if !suggestion.subtitle.isEmpty {
+                                        Text(suggestion.subtitle)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     DatePicker("Date & time", selection: $scheduledAt)
+
                     TextField("Notes (optional)", text: $notes, axis: .vertical)
                         .lineLimit(2...5)
                 }
@@ -68,7 +103,10 @@ struct SendJobSheet: View {
                     }
                 }
             }
-            .task { await loadUsers() }
+            .task {
+                await loadUsers()
+                await primeLocationBias()
+            }
         }
     }
 
@@ -86,6 +124,13 @@ struct SendJobSheet: View {
             users = try await JobService.shared.listUsers()
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    private func primeLocationBias() async {
+        location.requestPermissionIfNeeded()
+        if let loc = try? await location.currentLocation() {
+            completer.biasRegion(around: loc.coordinate)
         }
     }
 

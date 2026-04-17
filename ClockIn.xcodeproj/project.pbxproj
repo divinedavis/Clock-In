@@ -16,6 +16,7 @@
 		2707E39FB309A95FD615A36A /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E9D8FF7FB6447DE3A4DD7 /* ClockView.swift */; };
 		2B38C96808129C5B1593A06E /* JobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A34BA973F12DDAF01A89FC2 /* JobsView.swift */; };
 		336733E1B29400EBA90EBF8B /* TimeEntryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF6BDF3F5F6AB075679A546 /* TimeEntryService.swift */; };
+		3BCC5FBEDA42BD6AB3B7F13E /* AddressCompleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAFA55AD6379AAB600FFC05 /* AddressCompleter.swift */; };
 		4B98E658739A4C4603D8FCF2 /* AdminTimeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DA53BCFDC4FDE8B27BDE47 /* AdminTimeEntry.swift */; };
 		4C4ADC968A68EE2CC5F02C6C /* TimeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD89EAEEA0AF3BF6E7206B /* TimeEntry.swift */; };
 		4C5D0022F34925EA55576B7C /* ClockViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A20D048D5255BA424FECEE /* ClockViewModel.swift */; };
@@ -58,6 +59,7 @@
 		8830B82537D29CDC736E3732 /* AdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModel.swift; sourceTree = "<group>"; };
 		8A34BA973F12DDAF01A89FC2 /* JobsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsView.swift; sourceTree = "<group>"; };
 		9928373F4FEF9009617D17AB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		9CAFA55AD6379AAB600FFC05 /* AddressCompleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCompleter.swift; sourceTree = "<group>"; };
 		A63ED468888293F8D28F8694 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		A644AD5C2D59B15708C13FBA /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
 		AD78255F9C9040F9B6D268C0 /* ClockInApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockInApp.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		2B472EF988F51A227596F301 /* Admin */ = {
 			isa = PBXGroup;
 			children = (
+				9CAFA55AD6379AAB600FFC05 /* AddressCompleter.swift */,
 				335C84814C3520D68875B751 /* AdminJobsView.swift */,
 				1F9BD21714380E9C2C61BBE9 /* AdminJobsViewModel.swift */,
 				08DA53BCFDC4FDE8B27BDE47 /* AdminTimeEntry.swift */,
@@ -277,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFDE53CBA57B333FAA7E46CC /* AccountView.swift in Sources */,
+				3BCC5FBEDA42BD6AB3B7F13E /* AddressCompleter.swift in Sources */,
 				0045BF8B531FEF0DDB1F9124 /* AdminJobsView.swift in Sources */,
 				8B6C0287221AEDE4CACF862A /* AdminJobsViewModel.swift in Sources */,
 				4B98E658739A4C4603D8FCF2 /* AdminTimeEntry.swift in Sources */,
