@@ -2,6 +2,8 @@ import SwiftUI
 
 struct AccountView: View {
     @EnvironmentObject var auth: AuthViewModel
+    @State private var showUploadW4 = false
+    @State private var showUploadDirectDeposit = false
 
     var body: some View {
         NavigationStack {
@@ -29,7 +31,20 @@ struct AccountView: View {
                             FormsView()
                         }
                     } label: {
-                        Label("Direct deposit forms", systemImage: "doc.text.fill")
+                        Label("All forms", systemImage: "doc.text.fill")
+                    }
+
+                    if auth.isAdmin {
+                        Button {
+                            showUploadW4 = true
+                        } label: {
+                            Label("Upload W-4 form", systemImage: "square.and.arrow.up")
+                        }
+                        Button {
+                            showUploadDirectDeposit = true
+                        } label: {
+                            Label("Upload direct deposit form", systemImage: "square.and.arrow.up")
+                        }
                     }
                 }
 
@@ -40,6 +55,12 @@ struct AccountView: View {
                 }
             }
             .navigationTitle("Account")
+            .sheet(isPresented: $showUploadW4) {
+                UploadFormSheet(initialTitle: "W-4") { /* no-op */ }
+            }
+            .sheet(isPresented: $showUploadDirectDeposit) {
+                UploadFormSheet(initialTitle: "Direct Deposit") { /* no-op */ }
+            }
         }
     }
 }

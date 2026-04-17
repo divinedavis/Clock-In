@@ -2,6 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct UploadFormSheet: View {
+    var initialTitle: String = ""
     var onCompleted: () async -> Void
 
     @Environment(\.dismiss) private var dismiss
@@ -77,6 +78,7 @@ struct UploadFormSheet: View {
                 handlePickerResult(result)
             }
             .task {
+                if title.isEmpty { title = initialTitle }
                 do { users = try await JobService.shared.listUsers() }
                 catch { errorMessage = error.localizedDescription }
             }
