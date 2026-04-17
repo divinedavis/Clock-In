@@ -225,3 +225,113 @@ as $$
     order by j.scheduled_at;
 $$;
 grant execute on function public.admin_jobs_with_recipients() to authenticated;
+
+-- Direct deposit form uploads.
+-- Bucket 'forms' is created in storage; see storage policies below.
+insert into storage.buckets (id, name, public)
+values ('forms', 'forms', false)
+on conflict (id) do nothing;
+
+drop policy if exists "admins manage forms bucket" on storage.objects;
+create policy "admins manage forms bucket" on storage.objects
+    for all
+    using (bucket_id = 'forms' and public.is_admin())
+    with check (bucket_id = 'forms' and public.is_admin());
+
+drop policy if exists "users read blanks and own submissions" on storage.objects;
+create policy "users read blanks and own submissions" on storage.objects
+    for select using (
+        bucket_id = 'forms'
+        and (
+            name like 'blank/%'
+            or name like ('submitted/' || auth.uid()::text || '/%')
+        )
+    );
+
+drop policy if exists "users upload own submissions" on storage.objects;
+create policy "users upload own submissions" on storage.objects
+    for insert with check (
+        bucket_id = 'forms'
+        and name like ('submitted/' || auth.uid()::text || '/%')
+    );
+
+drop policy if exists "users update own submissions" on storage.objects;
+create policy "users update own submissions" on storage.objects
+    for update
+    using (bucket_id = 'forms' and name like ('submitted/' || auth.uid()::text || '/%'))
+    with check (bucket_id = 'forms' and name like ('submitted/' || auth.uid()::text || '/%'));
+
+create table if not exists public.direct_deposit_forms (
+    id uuid primary key default gen_random_uuid(),
+    created_by uuid not null default auth.uid() references auth.users(id) on delete cascade,
+    title text not null,
+    blank_file_path text not null,
+    is_broadcast boolean not null default true,
+    created_at timestamptz not null default now()
+);
+
+create table if not exists public.direct_deposit_submissions (
+    id uuid primary key default gen_random_uuid(),
+    form_id uuid not null references public.direct_deposit_forms(id) on delete cascade,
+    user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+    submitted_file_path text not null,
+    submitted_at timestamptz not null default now(),
+    unique (form_id, user_id)
+);
+
+alter table public.direct_deposit_forms enable row level security;
+alter table public.direct_deposit_submissions enable row level security;
+
+drop policy if exists "admins manage forms" on public.direct_deposit_forms;
+create policy "admins manage forms" on public.direct_deposit_forms
+    for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "users see broadcast forms" on public.direct_deposit_forms;
+create policy "users see broadcast forms" on public.direct_deposit_forms
+    for select using (is_broadcast);
+
+drop policy if exists "admins see all submissions" on public.direct_deposit_submissions;
+create policy "admins see all submissions" on public.direct_deposit_submissions
+    for select using (public.is_admin());
+
+drop policy if exists "users manage own submissions" on public.direct_deposit_submissions;
+create policy "users manage own submissions" on public.direct_deposit_submissions
+    for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+-- Admin: forms with per-user completion info.
+create or replace function public.admin_forms_status()
+returns table (
+    form_id uuid,
+    title text,
+    blank_file_path text,
+    created_at timestamptz,
+    total_users int,
+    submitted_count int,
+    pending_emails text[]
+)
+security definer
+set search_path = public, auth
+language sql stable
+as $$
+    select
+        f.id,
+        f.title,
+        f.blank_file_path,
+        f.created_at,
+        (select count(*) from auth.users)::int as total_users,
+        (select count(*) from public.direct_deposit_submissions s where s.form_id = f.id
+            and exists (select 1 from auth.users au where au.id = s.user_id))::int as submitted_count,
+        array(
+            select au.email::text from auth.users au
+            where not exists (select 1 from public.admins a where a.user_id = au.id)
+              and not exists (
+                select 1 from public.direct_deposit_submissions s
+                where s.form_id = f.id and s.user_id = au.id
+              )
+            order by au.email
+        ) as pending_emails
+    from public.direct_deposit_forms f
+    where exists (select 1 from public.admins where user_id = auth.uid())
+    order by f.created_at desc;
+$$;
+grant execute on function public.admin_forms_status() to authenticated;
