@@ -375,3 +375,86 @@ as $$
     order by f.created_at desc;
 $$;
 grant execute on function public.admin_forms_status() to authenticated;
+
+-- Messaging: 1:1 direct messages with read receipts.
+create table if not exists public.messages (
+    id uuid primary key default gen_random_uuid(),
+    sender_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+    recipient_id uuid not null references auth.users(id) on delete cascade,
+    body text not null,
+    created_at timestamptz not null default now(),
+    read_at timestamptz
+);
+
+create index if not exists messages_pair_time_idx
+    on public.messages (sender_id, recipient_id, created_at desc);
+create index if not exists messages_recipient_unread_idx
+    on public.messages (recipient_id)
+    where read_at is null;
+
+alter table public.messages enable row level security;
+
+drop policy if exists "participants read messages" on public.messages;
+create policy "participants read messages" on public.messages
+    for select using (sender_id = auth.uid() or recipient_id = auth.uid());
+
+drop policy if exists "sender insert messages" on public.messages;
+create policy "sender insert messages" on public.messages
+    for insert with check (sender_id = auth.uid());
+
+drop policy if exists "recipient updates read_at" on public.messages;
+create policy "recipient updates read_at" on public.messages
+    for update
+    using (recipient_id = auth.uid())
+    with check (recipient_id = auth.uid());
+
+create or replace function public.my_conversations()
+returns table (
+    partner_id uuid,
+    partner_email text,
+    last_body text,
+    last_at timestamptz,
+    unread_count int
+)
+security definer
+set search_path = public, auth
+language sql stable
+as $$
+    with mine as (
+        select
+            case when m.sender_id = auth.uid() then m.recipient_id else m.sender_id end as partner_id,
+            m.body, m.created_at, m.read_at, m.recipient_id
+        from public.messages m
+        where m.sender_id = auth.uid() or m.recipient_id = auth.uid()
+    ),
+    last_per_partner as (
+        select distinct on (partner_id) partner_id, body, created_at
+        from mine
+        order by partner_id, created_at desc
+    ),
+    unread as (
+        select partner_id, count(*)::int as unread_count
+        from mine
+        where recipient_id = auth.uid() and read_at is null
+        group by partner_id
+    )
+    select l.partner_id, u.email::text, l.body, l.created_at, coalesce(un.unread_count, 0)
+    from last_per_partner l
+    join auth.users u on u.id = l.partner_id
+    left join unread un on un.partner_id = l.partner_id
+    order by l.created_at desc;
+$$;
+grant execute on function public.my_conversations() to authenticated;
+
+create or replace function public.list_messageable_users()
+returns table (user_id uuid, email text)
+security definer
+set search_path = public, auth
+language sql stable
+as $$
+    select u.id, u.email::text
+    from auth.users u
+    where u.id != auth.uid()
+    order by u.email;
+$$;
+grant execute on function public.list_messageable_users() to authenticated;

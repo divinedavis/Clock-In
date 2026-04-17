@@ -16,6 +16,7 @@
 		26BE4116CC7299862210E0F5 /* JobService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1E21F9F2B697394C37539B /* JobService.swift */; };
 		2707E39FB309A95FD615A36A /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E9D8FF7FB6447DE3A4DD7 /* ClockView.swift */; };
 		2B38C96808129C5B1593A06E /* JobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A34BA973F12DDAF01A89FC2 /* JobsView.swift */; };
+		2D8FBF1714D2FD5B771BE406 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D9D97FAEC8FF3F3EE126B4 /* MessageService.swift */; };
 		336733E1B29400EBA90EBF8B /* TimeEntryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF6BDF3F5F6AB075679A546 /* TimeEntryService.swift */; };
 		3BCC5FBEDA42BD6AB3B7F13E /* AddressCompleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAFA55AD6379AAB600FFC05 /* AddressCompleter.swift */; };
 		448D02206174073B043866D1 /* AdminFormsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585C9DE197E9A619F8A9E5E /* AdminFormsViewModel.swift */; };
@@ -25,6 +26,7 @@
 		4D34938A8F0E14549F4BDF4E /* AdminFormsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983949BDA5538CEA70D9FC76 /* AdminFormsView.swift */; };
 		4E8C60DBC55A9C8E45B3B674 /* FormsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61649D9CBDF153C1A9DD89 /* FormsService.swift */; };
 		53418EE114EE1FE439784F83 /* JobsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B04B4B1F3B24735D715B32 /* JobsViewModel.swift */; };
+		553F7430ECD21A2C91A64CA1 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971C3ED32016DD5B0363684 /* MessagesView.swift */; };
 		60946C733702D9F954FB9004 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0B009739433ADB1013 /* AuthView.swift */; };
 		67AEC8630930BDB00BA7E561 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B508949FDD1C2094199763F4 /* AdminView.swift */; };
 		6A8A29A024EB8E73A0F185A7 /* NeighborhoodGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB38CF5058EA1EE126B46A9 /* NeighborhoodGeocoder.swift */; };
@@ -35,10 +37,15 @@
 		8B6C0287221AEDE4CACF862A /* AdminJobsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9BD21714380E9C2C61BBE9 /* AdminJobsViewModel.swift */; };
 		908F0C5E7DE2CB5239B47982 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8DA30EA943900C211F46AA9D /* Supabase */; };
 		938BC2839ED82F70D56509C7 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E047371DAFD8FA67CB9AEEC8 /* CalendarView.swift */; };
+		A6084FF488B1D3741DF2E5ED /* MessagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A6E6BE9C1DD5959D8F113F /* MessagesViewModel.swift */; };
 		A63E87D4CA59E463348396DC /* AdminViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8830B82537D29CDC736E3732 /* AdminViewModel.swift */; };
+		ADEF04C88FB43BD2290C5DBA /* NewMessageSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CDE60FFA67E876C0929A4 /* NewMessageSheet.swift */; };
 		B2249447ACEEB58213815474 /* SupabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2E7A55F1FE581804BE3338 /* SupabaseManager.swift */; };
 		B76E727159379857010C364E /* PDFFormEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA290085C2CB7A9FB06B335 /* PDFFormEditor.swift */; };
+		BF2925CA09B8EB5DBB2F7D4A /* ThreadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A66D77A088ED837789E0EB6 /* ThreadView.swift */; };
+		C15AC6B63CEBBE0DAED30B86 /* ThreadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71D53C6A745349E93CFC32 /* ThreadViewModel.swift */; };
 		C2D58D9E3EAF91BDFF0FB6FC /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = A644AD5C2D59B15708C13FBA /* Job.swift */; };
+		C59F5F20ED6EDE6E444B676D /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094CA90B3F0D69103C5B7758 /* Message.swift */; };
 		CAB99BC0019C09F4BC0481D2 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E67A20D0F48FA4BB5A2BE /* Secrets.swift */; };
 		D30B39F208E31858AAD063BA /* UploadFormSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5EFA8E68BFFE3496F05583 /* UploadFormSheet.swift */; };
 		D5637DB949471C6AA9DC385F /* DirectDepositForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC42F3D3DCC49FBE1476EE26 /* DirectDepositForm.swift */; };
@@ -50,7 +57,10 @@
 
 /* Begin PBXFileReference section */
 		08DA53BCFDC4FDE8B27BDE47 /* AdminTimeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTimeEntry.swift; sourceTree = "<group>"; };
+		094CA90B3F0D69103C5B7758 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		0A6CDE60FFA67E876C0929A4 /* NewMessageSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageSheet.swift; sourceTree = "<group>"; };
 		11F58A727CCA837791BCF259 /* SendJobSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendJobSheet.swift; sourceTree = "<group>"; };
+		16A6E6BE9C1DD5959D8F113F /* MessagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewModel.swift; sourceTree = "<group>"; };
 		1AFD89EAEEA0AF3BF6E7206B /* TimeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntry.swift; sourceTree = "<group>"; };
 		1F9BD21714380E9C2C61BBE9 /* AdminJobsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminJobsViewModel.swift; sourceTree = "<group>"; };
 		2120349F5BA9FFF8737C5F21 /* FormsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsView.swift; sourceTree = "<group>"; };
@@ -58,6 +68,7 @@
 		2D1E21F9F2B697394C37539B /* JobService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobService.swift; sourceTree = "<group>"; };
 		335C84814C3520D68875B751 /* AdminJobsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminJobsView.swift; sourceTree = "<group>"; };
 		3B8E9D8FF7FB6447DE3A4DD7 /* ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
+		4A66D77A088ED837789E0EB6 /* ThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadView.swift; sourceTree = "<group>"; };
 		4E4D6160F5B6381D1CF0AA4E /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		56B04B4B1F3B24735D715B32 /* JobsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsViewModel.swift; sourceTree = "<group>"; };
 		58451F3F8DDFE25A16E93B3E /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
@@ -65,10 +76,13 @@
 		634432CF67AB0314D637C764 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		6348FA0B009739433ADB1013 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		6B2E7A55F1FE581804BE3338 /* SupabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseManager.swift; sourceTree = "<group>"; };
+		6E71D53C6A745349E93CFC32 /* ThreadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadViewModel.swift; sourceTree = "<group>"; };
+		70D9D97FAEC8FF3F3EE126B4 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		7517AD4E229A4FA718C9B472 /* FillFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillFormView.swift; sourceTree = "<group>"; };
 		816E67A20D0F48FA4BB5A2BE /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		83E4FCD42A4C22D34E490D6F /* FormsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsViewModel.swift; sourceTree = "<group>"; };
 		8830B82537D29CDC736E3732 /* AdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModel.swift; sourceTree = "<group>"; };
+		8971C3ED32016DD5B0363684 /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		8A34BA973F12DDAF01A89FC2 /* JobsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsView.swift; sourceTree = "<group>"; };
 		983949BDA5538CEA70D9FC76 /* AdminFormsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFormsView.swift; sourceTree = "<group>"; };
 		9928373F4FEF9009617D17AB /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -176,6 +190,18 @@
 			path = Jobs;
 			sourceTree = "<group>";
 		};
+		4E01C6B9A79D07E86776987E /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				8971C3ED32016DD5B0363684 /* MessagesView.swift */,
+				16A6E6BE9C1DD5959D8F113F /* MessagesViewModel.swift */,
+				0A6CDE60FFA67E876C0929A4 /* NewMessageSheet.swift */,
+				4A66D77A088ED837789E0EB6 /* ThreadView.swift */,
+				6E71D53C6A745349E93CFC32 /* ThreadViewModel.swift */,
+			);
+			path = Messages;
+			sourceTree = "<group>";
+		};
 		6487D3B9D8B2128B58C6E208 /* Forms */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +218,7 @@
 			children = (
 				FC42F3D3DCC49FBE1476EE26 /* DirectDepositForm.swift */,
 				A644AD5C2D59B15708C13FBA /* Job.swift */,
+				094CA90B3F0D69103C5B7758 /* Message.swift */,
 				1AFD89EAEEA0AF3BF6E7206B /* TimeEntry.swift */,
 			);
 			path = Models;
@@ -219,6 +246,7 @@
 			children = (
 				9A61649D9CBDF153C1A9DD89 /* FormsService.swift */,
 				2D1E21F9F2B697394C37539B /* JobService.swift */,
+				70D9D97FAEC8FF3F3EE126B4 /* MessageService.swift */,
 				AEF6BDF3F5F6AB075679A546 /* TimeEntryService.swift */,
 			);
 			path = Services;
@@ -236,6 +264,7 @@
 				6487D3B9D8B2128B58C6E208 /* Forms */,
 				83B3771B5D2260245246A67F /* History */,
 				4DAF7D46172432E29EFE595A /* Jobs */,
+				4E01C6B9A79D07E86776987E /* Messages */,
 				6803EEA0736007C91D965C9C /* Models */,
 				E991D6FA3AB93521361F32A8 /* Services */,
 				FBC9DC2FCA91D69AA7216556 /* Supabase */,
@@ -343,12 +372,19 @@
 				53418EE114EE1FE439784F83 /* JobsViewModel.swift in Sources */,
 				1F6EC3E0D073AC7EBDD55DCB /* LocationManager.swift in Sources */,
 				00F568F8A12238618AF8E4D1 /* MainTabView.swift in Sources */,
+				C59F5F20ED6EDE6E444B676D /* Message.swift in Sources */,
+				2D8FBF1714D2FD5B771BE406 /* MessageService.swift in Sources */,
+				553F7430ECD21A2C91A64CA1 /* MessagesView.swift in Sources */,
+				A6084FF488B1D3741DF2E5ED /* MessagesViewModel.swift in Sources */,
 				6A8A29A024EB8E73A0F185A7 /* NeighborhoodGeocoder.swift in Sources */,
+				ADEF04C88FB43BD2290C5DBA /* NewMessageSheet.swift in Sources */,
 				B76E727159379857010C364E /* PDFFormEditor.swift in Sources */,
 				DF68CC0C5B5A922B981E18D0 /* RootView.swift in Sources */,
 				CAB99BC0019C09F4BC0481D2 /* Secrets.swift in Sources */,
 				E08C63F0D58B227D0F385D19 /* SendJobSheet.swift in Sources */,
 				B2249447ACEEB58213815474 /* SupabaseManager.swift in Sources */,
+				BF2925CA09B8EB5DBB2F7D4A /* ThreadView.swift in Sources */,
+				C15AC6B63CEBBE0DAED30B86 /* ThreadViewModel.swift in Sources */,
 				4C4ADC968A68EE2CC5F02C6C /* TimeEntry.swift in Sources */,
 				336733E1B29400EBA90EBF8B /* TimeEntryService.swift in Sources */,
 				D30B39F208E31858AAD063BA /* UploadFormSheet.swift in Sources */,

@@ -23,6 +23,16 @@ struct AccountView: View {
                     }
                 }
 
+                if !auth.isAdmin {
+                    Section("Work") {
+                        NavigationLink {
+                            HistoryView()
+                        } label: {
+                            Label("Clock-in history", systemImage: "clock.arrow.circlepath")
+                        }
+                    }
+                }
+
                 Section("Forms") {
                     NavigationLink {
                         if auth.isAdmin {
