@@ -17,6 +17,7 @@
 		2707E39FB309A95FD615A36A /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E9D8FF7FB6447DE3A4DD7 /* ClockView.swift */; };
 		2B38C96808129C5B1593A06E /* JobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A34BA973F12DDAF01A89FC2 /* JobsView.swift */; };
 		2D8FBF1714D2FD5B771BE406 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D9D97FAEC8FF3F3EE126B4 /* MessageService.swift */; };
+		3087722C9E4C70B80F7450F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20DDB9A64B2DA841ECBC08EE /* Assets.xcassets */; };
 		336733E1B29400EBA90EBF8B /* TimeEntryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF6BDF3F5F6AB075679A546 /* TimeEntryService.swift */; };
 		3BCC5FBEDA42BD6AB3B7F13E /* AddressCompleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAFA55AD6379AAB600FFC05 /* AddressCompleter.swift */; };
 		448D02206174073B043866D1 /* AdminFormsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585C9DE197E9A619F8A9E5E /* AdminFormsViewModel.swift */; };
@@ -27,6 +28,7 @@
 		4E8C60DBC55A9C8E45B3B674 /* FormsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A61649D9CBDF153C1A9DD89 /* FormsService.swift */; };
 		53418EE114EE1FE439784F83 /* JobsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B04B4B1F3B24735D715B32 /* JobsViewModel.swift */; };
 		553F7430ECD21A2C91A64CA1 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8971C3ED32016DD5B0363684 /* MessagesView.swift */; };
+		56F86F8A52698D33C49BB812 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8014CB64AF9250F90444FAAE /* PrivacyInfo.xcprivacy */; };
 		60946C733702D9F954FB9004 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0B009739433ADB1013 /* AuthView.swift */; };
 		67AEC8630930BDB00BA7E561 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B508949FDD1C2094199763F4 /* AdminView.swift */; };
 		6A8A29A024EB8E73A0F185A7 /* NeighborhoodGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB38CF5058EA1EE126B46A9 /* NeighborhoodGeocoder.swift */; };
@@ -64,6 +66,7 @@
 		16A6E6BE9C1DD5959D8F113F /* MessagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewModel.swift; sourceTree = "<group>"; };
 		1AFD89EAEEA0AF3BF6E7206B /* TimeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntry.swift; sourceTree = "<group>"; };
 		1F9BD21714380E9C2C61BBE9 /* AdminJobsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminJobsViewModel.swift; sourceTree = "<group>"; };
+		20DDB9A64B2DA841ECBC08EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2120349F5BA9FFF8737C5F21 /* FormsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsView.swift; sourceTree = "<group>"; };
 		28A20D048D5255BA424FECEE /* ClockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockViewModel.swift; sourceTree = "<group>"; };
 		2D1E21F9F2B697394C37539B /* JobService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobService.swift; sourceTree = "<group>"; };
@@ -81,6 +84,7 @@
 		6E71D53C6A745349E93CFC32 /* ThreadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadViewModel.swift; sourceTree = "<group>"; };
 		70D9D97FAEC8FF3F3EE126B4 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
 		7517AD4E229A4FA718C9B472 /* FillFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillFormView.swift; sourceTree = "<group>"; };
+		8014CB64AF9250F90444FAAE /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		816E67A20D0F48FA4BB5A2BE /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		83E4FCD42A4C22D34E490D6F /* FormsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsViewModel.swift; sourceTree = "<group>"; };
 		8830B82537D29CDC736E3732 /* AdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModel.swift; sourceTree = "<group>"; };
@@ -258,6 +262,8 @@
 		FACC0BD3A8E6A115B8580B02 /* ClockIn */ = {
 			isa = PBXGroup;
 			children = (
+				20DDB9A64B2DA841ECBC08EE /* Assets.xcassets */,
+				8014CB64AF9250F90444FAAE /* PrivacyInfo.xcprivacy */,
 				816E67A20D0F48FA4BB5A2BE /* Secrets.swift */,
 				2B472EF988F51A227596F301 /* Admin */,
 				43EEBE3D64CA923E2ECB914D /* App */,
@@ -291,6 +297,7 @@
 			buildConfigurationList = 56885357E8017120D9451B55 /* Build configuration list for PBXNativeTarget "ClockIn" */;
 			buildPhases = (
 				CD69DD51520C32B2AEE1C8D8 /* Sources */,
+				8311C4D379915015C51C7850 /* Resources */,
 				7B2F9090E950C357ABE2148A /* Frameworks */,
 			);
 			buildRules = (
@@ -315,7 +322,7 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					07ADA9821F3FBB4B94BA9599 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = 844WEJ9FXF;
 					};
 				};
 			};
@@ -340,6 +347,18 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8311C4D379915015C51C7850 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3087722C9E4C70B80F7450F7 /* Assets.xcassets in Resources */,
+				56F86F8A52698D33C49BB812 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CD69DD51520C32B2AEE1C8D8 /* Sources */ = {
@@ -405,6 +424,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Clock In uses your location to record where you clocked in and out.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -429,6 +449,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Clock In uses your location to record where you clocked in and out.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -481,7 +502,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 844WEJ9FXF;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -538,7 +559,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 844WEJ9FXF;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

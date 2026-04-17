@@ -7,7 +7,7 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: "844WEJ9FXF"
 packages:
   Supabase:
     url: https://github.com/supabase/supabase-swift
@@ -30,6 +30,7 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Clock In uses your location to record where you clocked in and out."
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: "NO"
         GENERATE_INFOPLIST_FILE: "YES"
         CURRENT_PROJECT_VERSION: "1"
         MARKETING_VERSION: "1.0"
