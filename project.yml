@@ -7,7 +7,7 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    DEVELOPMENT_TEAM: "844WEJ9FXF"
+    DEVELOPMENT_TEAM: "CG89RY4W6R"
 packages:
   Supabase:
     url: https://github.com/supabase/supabase-swift
