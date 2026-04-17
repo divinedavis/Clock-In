@@ -13,7 +13,6 @@ xcuserdata/
 .build/
 Packages/
 Package.pins
-Package.resolved
 
 # CocoaPods
 Pods/
@@ -24,5 +23,5 @@ Carthage/Build/
 # macOS
 .DS_Store
 
-# xcodegen generates the project from project.yml; keep the generated project out if preferred
-# (Leaving ClockIn.xcodeproj tracked so users can open in Xcode directly.)
+# App secrets — never commit
+ClockIn/Secrets.swift
