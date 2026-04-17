@@ -376,6 +376,44 @@ as $$
 $$;
 grant execute on function public.admin_forms_status() to authenticated;
 
+-- Per-form detail: who's assigned + their submission timestamp (null if not submitted).
+create or replace function public.admin_form_status(form_uuid uuid)
+returns table (
+    user_id uuid,
+    email text,
+    submitted_at timestamptz
+)
+security definer
+set search_path = public, auth
+language sql stable
+as $$
+    with the_form as (
+        select id, is_broadcast from public.direct_deposit_forms where id = form_uuid
+    ),
+    assigned as (
+        select
+            case when tf.is_broadcast then
+                array(select au.id from auth.users au
+                      where not exists (select 1 from public.admins a where a.user_id = au.id))
+            else
+                array(select fr.user_id from public.form_recipients fr where fr.form_id = tf.id)
+            end as recipient_ids
+        from the_form tf
+    )
+    select
+        u.id,
+        u.email::text,
+        s.submitted_at
+    from auth.users u
+    left join public.direct_deposit_submissions s
+        on s.user_id = u.id and s.form_id = form_uuid
+    cross join assigned a
+    where u.id = any(a.recipient_ids)
+      and exists (select 1 from public.admins where user_id = auth.uid())
+    order by s.submitted_at desc nulls last, u.email;
+$$;
+grant execute on function public.admin_form_status(uuid) to authenticated;
+
 -- Messaging: 1:1 direct messages with read receipts.
 create table if not exists public.messages (
     id uuid primary key default gen_random_uuid(),

@@ -18,7 +18,11 @@ struct AdminFormsView: View {
                 } else {
                     List {
                         ForEach(vm.forms) { form in
-                            AdminFormRow(status: form)
+                            NavigationLink {
+                                AdminFormDetailView(status: form)
+                            } label: {
+                                AdminFormRow(status: form)
+                            }
                         }
                         .onDelete { indexSet in
                             Task { await vm.delete(indexSet) }

@@ -89,3 +89,17 @@ struct FormRecipientRow: Encodable {
         case userId = "user_id"
     }
 }
+
+struct FormUserStatus: Identifiable, Codable, Equatable {
+    var userId: UUID
+    var email: String
+    var submittedAt: Date?
+
+    var id: UUID { userId }
+
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+        case email
+        case submittedAt = "submitted_at"
+    }
+}

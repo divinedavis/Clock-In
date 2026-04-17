@@ -15,6 +15,10 @@ final class FormsService {
         try await client.rpc("admin_forms_status").execute().value
     }
 
+    func adminFormStatus(formId: UUID) async throws -> [FormUserStatus] {
+        try await client.rpc("admin_form_status", params: ["form_uuid": formId]).execute().value
+    }
+
     func uploadBlankForm(
         title: String,
         data: Data,

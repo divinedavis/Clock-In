@@ -31,6 +31,7 @@
 		67AEC8630930BDB00BA7E561 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B508949FDD1C2094199763F4 /* AdminView.swift */; };
 		6A8A29A024EB8E73A0F185A7 /* NeighborhoodGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB38CF5058EA1EE126B46A9 /* NeighborhoodGeocoder.swift */; };
 		6FFF88BC74EF629EAC1AE5E4 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6160F5B6381D1CF0AA4E /* HistoryView.swift */; };
+		7013EF3F538CCBC48DC6CED0 /* AdminFormDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E14FBAB3A0B6D04B08D93 /* AdminFormDetailView.swift */; };
 		7331DE0FD7CB73A47ED418C1 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58451F3F8DDFE25A16E93B3E /* CalendarViewModel.swift */; };
 		7389DFC784572461C7265B7D /* FormsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E4FCD42A4C22D34E490D6F /* FormsViewModel.swift */; };
 		7718F5944912769341BA6DCF /* ClockInApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD78255F9C9040F9B6D268C0 /* ClockInApp.swift */; };
@@ -67,6 +68,7 @@
 		28A20D048D5255BA424FECEE /* ClockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockViewModel.swift; sourceTree = "<group>"; };
 		2D1E21F9F2B697394C37539B /* JobService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobService.swift; sourceTree = "<group>"; };
 		335C84814C3520D68875B751 /* AdminJobsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminJobsView.swift; sourceTree = "<group>"; };
+		384E14FBAB3A0B6D04B08D93 /* AdminFormDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFormDetailView.swift; sourceTree = "<group>"; };
 		3B8E9D8FF7FB6447DE3A4DD7 /* ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
 		4A66D77A088ED837789E0EB6 /* ThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadView.swift; sourceTree = "<group>"; };
 		4E4D6160F5B6381D1CF0AA4E /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				9CAFA55AD6379AAB600FFC05 /* AddressCompleter.swift */,
+				384E14FBAB3A0B6D04B08D93 /* AdminFormDetailView.swift */,
 				983949BDA5538CEA70D9FC76 /* AdminFormsView.swift */,
 				A585C9DE197E9A619F8A9E5E /* AdminFormsViewModel.swift */,
 				335C84814C3520D68875B751 /* AdminJobsView.swift */,
@@ -345,6 +348,7 @@
 			files = (
 				EFDE53CBA57B333FAA7E46CC /* AccountView.swift in Sources */,
 				3BCC5FBEDA42BD6AB3B7F13E /* AddressCompleter.swift in Sources */,
+				7013EF3F538CCBC48DC6CED0 /* AdminFormDetailView.swift in Sources */,
 				4D34938A8F0E14549F4BDF4E /* AdminFormsView.swift in Sources */,
 				448D02206174073B043866D1 /* AdminFormsViewModel.swift in Sources */,
 				0045BF8B531FEF0DDB1F9124 /* AdminJobsView.swift in Sources */,
