@@ -7,10 +7,14 @@ struct MainTabView: View {
         TabView {
             if auth.isAdmin {
                 AdminView()
-                    .tabItem { Label("Admin", systemImage: "person.3.fill") }
+                    .tabItem { Label("Users", systemImage: "person.3.fill") }
+                AdminJobsView()
+                    .tabItem { Label("Jobs", systemImage: "briefcase.fill") }
             } else {
                 ClockView()
                     .tabItem { Label("Clock", systemImage: "clock.fill") }
+                JobsView()
+                    .tabItem { Label("Jobs", systemImage: "briefcase.fill") }
                 HistoryView()
                     .tabItem { Label("History", systemImage: "calendar") }
             }

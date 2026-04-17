@@ -114,3 +114,72 @@ as $$
 $$;
 
 grant execute on function public.admin_time_entries() to authenticated;
+
+-- Jobs: admins create assignments (with location + time), users receive them.
+create table if not exists public.jobs (
+    id uuid primary key default gen_random_uuid(),
+    created_by uuid not null default auth.uid() references auth.users(id) on delete cascade,
+    title text not null,
+    address text,
+    location_lat double precision,
+    location_lng double precision,
+    scheduled_at timestamptz not null,
+    notes text,
+    is_broadcast boolean not null default false,
+    created_at timestamptz not null default now()
+);
+
+create index if not exists jobs_scheduled_at_idx on public.jobs (scheduled_at desc);
+
+create table if not exists public.job_recipients (
+    job_id uuid not null references public.jobs(id) on delete cascade,
+    user_id uuid not null references auth.users(id) on delete cascade,
+    primary key (job_id, user_id)
+);
+
+create index if not exists job_recipients_user_idx on public.job_recipients (user_id);
+
+alter table public.jobs enable row level security;
+alter table public.job_recipients enable row level security;
+
+drop policy if exists "admins manage jobs" on public.jobs;
+create policy "admins manage jobs"
+    on public.jobs for all
+    using (public.is_admin())
+    with check (public.is_admin());
+
+drop policy if exists "users see assigned or broadcast jobs" on public.jobs;
+create policy "users see assigned or broadcast jobs"
+    on public.jobs for select
+    using (
+        is_broadcast
+        or exists (
+            select 1 from public.job_recipients jr
+            where jr.job_id = jobs.id and jr.user_id = auth.uid()
+        )
+    );
+
+drop policy if exists "admins manage recipients" on public.job_recipients;
+create policy "admins manage recipients"
+    on public.job_recipients for all
+    using (public.is_admin())
+    with check (public.is_admin());
+
+drop policy if exists "users see own recipient rows" on public.job_recipients;
+create policy "users see own recipient rows"
+    on public.job_recipients for select
+    using (user_id = auth.uid());
+
+-- Admin-only: list every user, for the recipient picker.
+create or replace function public.admin_list_users()
+returns table (user_id uuid, email text)
+security definer
+set search_path = public, auth
+language sql stable
+as $$
+    select u.id as user_id, u.email::text
+    from auth.users u
+    where exists (select 1 from public.admins where user_id = auth.uid())
+    order by u.email;
+$$;
+grant execute on function public.admin_list_users() to authenticated;
