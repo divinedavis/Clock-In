@@ -9,6 +9,9 @@ struct UploadFormSheet: View {
     @State private var pickedData: Data?
     @State private var pickedName: String?
     @State private var showPicker = false
+    @State private var broadcast = true
+    @State private var users: [UserRow] = []
+    @State private var selected: Set<UUID> = []
     @State private var isSaving = false
     @State private var errorMessage: String?
 
@@ -16,7 +19,7 @@ struct UploadFormSheet: View {
         NavigationStack {
             Form {
                 Section("Form") {
-                    TextField("Title (e.g. W-4 Direct Deposit)", text: $title)
+                    TextField("Title (e.g. W-4, Direct Deposit)", text: $title)
                 }
                 Section("PDF") {
                     Button {
@@ -26,6 +29,26 @@ struct UploadFormSheet: View {
                     }
                     if let name = pickedName {
                         Text(name).font(.caption).foregroundStyle(.secondary)
+                    }
+                }
+                Section("Recipients") {
+                    Toggle("Send to all users", isOn: $broadcast)
+                    if !broadcast {
+                        if users.isEmpty {
+                            ProgressView()
+                        } else {
+                            ForEach(users) { u in
+                                Button {
+                                    toggleSelection(u.userId)
+                                } label: {
+                                    HStack {
+                                        Image(systemName: selected.contains(u.userId) ? "checkmark.circle.fill" : "circle")
+                                            .foregroundColor(selected.contains(u.userId) ? .accentColor : .secondary)
+                                        Text(u.email).foregroundStyle(.primary)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 if let errorMessage {
@@ -53,11 +76,21 @@ struct UploadFormSheet: View {
             ) { result in
                 handlePickerResult(result)
             }
+            .task {
+                do { users = try await JobService.shared.listUsers() }
+                catch { errorMessage = error.localizedDescription }
+            }
         }
     }
 
     private var canSubmit: Bool {
-        !title.trimmingCharacters(in: .whitespaces).isEmpty && pickedData != nil
+        !title.trimmingCharacters(in: .whitespaces).isEmpty
+            && pickedData != nil
+            && (broadcast || !selected.isEmpty)
+    }
+
+    private func toggleSelection(_ id: UUID) {
+        if selected.contains(id) { selected.remove(id) } else { selected.insert(id) }
     }
 
     private func handlePickerResult(_ result: Result<[URL], Error>) {
@@ -84,7 +117,9 @@ struct UploadFormSheet: View {
         do {
             _ = try await FormsService.shared.uploadBlankForm(
                 title: title.trimmingCharacters(in: .whitespaces),
-                data: data
+                data: data,
+                broadcast: broadcast,
+                recipientUserIds: Array(selected)
             )
             await onCompleted()
             dismiss()

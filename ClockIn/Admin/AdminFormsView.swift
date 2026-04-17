@@ -54,8 +54,14 @@ private struct AdminFormRow: View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(status.title).font(.headline)
+                if status.isBroadcast {
+                    Text("ALL")
+                        .font(.caption2.weight(.bold))
+                        .padding(.horizontal, 6).padding(.vertical, 2)
+                        .background(Color.accentColor.opacity(0.2), in: Capsule())
+                }
                 Spacer()
-                Text("\(status.submittedCount)/\(max(status.totalUsers - 1, 0))")
+                Text("\(status.submittedCount)/\(status.totalAssigned)")
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(status.pendingEmails.isEmpty ? .green : .orange)
             }

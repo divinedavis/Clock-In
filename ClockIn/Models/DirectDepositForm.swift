@@ -60,8 +60,9 @@ struct AdminFormStatus: Identifiable, Codable, Equatable {
     var formId: UUID
     var title: String
     var blankFilePath: String
+    var isBroadcast: Bool
     var createdAt: Date
-    var totalUsers: Int
+    var totalAssigned: Int
     var submittedCount: Int
     var pendingEmails: [String]
 
@@ -71,9 +72,20 @@ struct AdminFormStatus: Identifiable, Codable, Equatable {
         case formId = "form_id"
         case title
         case blankFilePath = "blank_file_path"
+        case isBroadcast = "is_broadcast"
         case createdAt = "created_at"
-        case totalUsers = "total_users"
+        case totalAssigned = "total_assigned"
         case submittedCount = "submitted_count"
         case pendingEmails = "pending_emails"
+    }
+}
+
+struct FormRecipientRow: Encodable {
+    var formId: UUID
+    var userId: UUID
+
+    enum CodingKeys: String, CodingKey {
+        case formId = "form_id"
+        case userId = "user_id"
     }
 }

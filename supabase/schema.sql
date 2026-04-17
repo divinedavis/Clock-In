@@ -286,9 +286,34 @@ drop policy if exists "admins manage forms" on public.direct_deposit_forms;
 create policy "admins manage forms" on public.direct_deposit_forms
     for all using (public.is_admin()) with check (public.is_admin());
 
+create table if not exists public.form_recipients (
+    form_id uuid not null references public.direct_deposit_forms(id) on delete cascade,
+    user_id uuid not null references auth.users(id) on delete cascade,
+    primary key (form_id, user_id)
+);
+
+create index if not exists form_recipients_user_idx on public.form_recipients (user_id);
+
+alter table public.form_recipients enable row level security;
+
+drop policy if exists "admins manage form recipients" on public.form_recipients;
+create policy "admins manage form recipients" on public.form_recipients
+    for all using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "users see own form recipient rows" on public.form_recipients;
+create policy "users see own form recipient rows" on public.form_recipients
+    for select using (user_id = auth.uid());
+
 drop policy if exists "users see broadcast forms" on public.direct_deposit_forms;
-create policy "users see broadcast forms" on public.direct_deposit_forms
-    for select using (is_broadcast);
+drop policy if exists "users see assigned or broadcast forms" on public.direct_deposit_forms;
+create policy "users see assigned or broadcast forms" on public.direct_deposit_forms
+    for select using (
+        is_broadcast
+        or exists (
+            select 1 from public.form_recipients fr
+            where fr.form_id = direct_deposit_forms.id and fr.user_id = auth.uid()
+        )
+    );
 
 drop policy if exists "admins see all submissions" on public.direct_deposit_submissions;
 create policy "admins see all submissions" on public.direct_deposit_submissions
@@ -299,13 +324,15 @@ create policy "users manage own submissions" on public.direct_deposit_submission
     for all using (user_id = auth.uid()) with check (user_id = auth.uid());
 
 -- Admin: forms with per-user completion info.
+drop function if exists public.admin_forms_status();
 create or replace function public.admin_forms_status()
 returns table (
     form_id uuid,
     title text,
     blank_file_path text,
+    is_broadcast boolean,
     created_at timestamptz,
-    total_users int,
+    total_assigned int,
     submitted_count int,
     pending_emails text[]
 )
@@ -313,17 +340,29 @@ security definer
 set search_path = public, auth
 language sql stable
 as $$
+    with assigned as (
+        select
+            f.id as form_id,
+            case when f.is_broadcast then
+                array(select au.id from auth.users au
+                      where not exists (select 1 from public.admins a where a.user_id = au.id))
+            else
+                array(select fr.user_id from public.form_recipients fr where fr.form_id = f.id)
+            end as recipient_ids
+        from public.direct_deposit_forms f
+    )
     select
         f.id,
         f.title,
         f.blank_file_path,
+        f.is_broadcast,
         f.created_at,
-        (select count(*) from auth.users)::int as total_users,
-        (select count(*) from public.direct_deposit_submissions s where s.form_id = f.id
-            and exists (select 1 from auth.users au where au.id = s.user_id))::int as submitted_count,
+        coalesce(array_length(a.recipient_ids, 1), 0)::int as total_assigned,
+        (select count(*)::int from public.direct_deposit_submissions s
+         where s.form_id = f.id and s.user_id = any(a.recipient_ids)) as submitted_count,
         array(
             select au.email::text from auth.users au
-            where not exists (select 1 from public.admins a where a.user_id = au.id)
+            where au.id = any(a.recipient_ids)
               and not exists (
                 select 1 from public.direct_deposit_submissions s
                 where s.form_id = f.id and s.user_id = au.id
@@ -331,6 +370,7 @@ as $$
             order by au.email
         ) as pending_emails
     from public.direct_deposit_forms f
+    join assigned a on a.form_id = f.id
     where exists (select 1 from public.admins where user_id = auth.uid())
     order by f.created_at desc;
 $$;

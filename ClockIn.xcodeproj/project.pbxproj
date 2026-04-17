@@ -11,6 +11,7 @@
 		00F568F8A12238618AF8E4D1 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634432CF67AB0314D637C764 /* MainTabView.swift */; };
 		0A577EA7BFE3B623B5DDCFDF /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624A9D951B4B6DE73DCC85AC /* AuthViewModel.swift */; };
 		1199A3BB2770DB3E60DEB90F /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0CD7D11F59CFFA7D1C99E9 /* HistoryViewModel.swift */; };
+		18590DD3F3FD87D0852E2246 /* FillFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7517AD4E229A4FA718C9B472 /* FillFormView.swift */; };
 		1F6EC3E0D073AC7EBDD55DCB /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A63ED468888293F8D28F8694 /* LocationManager.swift */; };
 		26BE4116CC7299862210E0F5 /* JobService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1E21F9F2B697394C37539B /* JobService.swift */; };
 		2707E39FB309A95FD615A36A /* ClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B8E9D8FF7FB6447DE3A4DD7 /* ClockView.swift */; };
@@ -36,6 +37,7 @@
 		938BC2839ED82F70D56509C7 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E047371DAFD8FA67CB9AEEC8 /* CalendarView.swift */; };
 		A63E87D4CA59E463348396DC /* AdminViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8830B82537D29CDC736E3732 /* AdminViewModel.swift */; };
 		B2249447ACEEB58213815474 /* SupabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B2E7A55F1FE581804BE3338 /* SupabaseManager.swift */; };
+		B76E727159379857010C364E /* PDFFormEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA290085C2CB7A9FB06B335 /* PDFFormEditor.swift */; };
 		C2D58D9E3EAF91BDFF0FB6FC /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = A644AD5C2D59B15708C13FBA /* Job.swift */; };
 		CAB99BC0019C09F4BC0481D2 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E67A20D0F48FA4BB5A2BE /* Secrets.swift */; };
 		D30B39F208E31858AAD063BA /* UploadFormSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5EFA8E68BFFE3496F05583 /* UploadFormSheet.swift */; };
@@ -63,6 +65,7 @@
 		634432CF67AB0314D637C764 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		6348FA0B009739433ADB1013 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		6B2E7A55F1FE581804BE3338 /* SupabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseManager.swift; sourceTree = "<group>"; };
+		7517AD4E229A4FA718C9B472 /* FillFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillFormView.swift; sourceTree = "<group>"; };
 		816E67A20D0F48FA4BB5A2BE /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		83E4FCD42A4C22D34E490D6F /* FormsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsViewModel.swift; sourceTree = "<group>"; };
 		8830B82537D29CDC736E3732 /* AdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModel.swift; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 		AEF6BDF3F5F6AB075679A546 /* TimeEntryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEntryService.swift; sourceTree = "<group>"; };
 		B508949FDD1C2094199763F4 /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 		B716BC513FAAEEC3BB3147F9 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		BAA290085C2CB7A9FB06B335 /* PDFFormEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFFormEditor.swift; sourceTree = "<group>"; };
 		BC5EFA8E68BFFE3496F05583 /* UploadFormSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFormSheet.swift; sourceTree = "<group>"; };
 		DF92C3E81048008C4FE9C9BF /* ClockIn.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ClockIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E047371DAFD8FA67CB9AEEC8 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -175,8 +179,10 @@
 		6487D3B9D8B2128B58C6E208 /* Forms */ = {
 			isa = PBXGroup;
 			children = (
+				7517AD4E229A4FA718C9B472 /* FillFormView.swift */,
 				2120349F5BA9FFF8737C5F21 /* FormsView.swift */,
 				83E4FCD42A4C22D34E490D6F /* FormsViewModel.swift */,
+				BAA290085C2CB7A9FB06B335 /* PDFFormEditor.swift */,
 			);
 			path = Forms;
 			sourceTree = "<group>";
@@ -325,6 +331,7 @@
 				2707E39FB309A95FD615A36A /* ClockView.swift in Sources */,
 				4C5D0022F34925EA55576B7C /* ClockViewModel.swift in Sources */,
 				D5637DB949471C6AA9DC385F /* DirectDepositForm.swift in Sources */,
+				18590DD3F3FD87D0852E2246 /* FillFormView.swift in Sources */,
 				4E8C60DBC55A9C8E45B3B674 /* FormsService.swift in Sources */,
 				D6FADCD1AEF92A738AC3A755 /* FormsView.swift in Sources */,
 				7389DFC784572461C7265B7D /* FormsViewModel.swift in Sources */,
@@ -337,6 +344,7 @@
 				1F6EC3E0D073AC7EBDD55DCB /* LocationManager.swift in Sources */,
 				00F568F8A12238618AF8E4D1 /* MainTabView.swift in Sources */,
 				6A8A29A024EB8E73A0F185A7 /* NeighborhoodGeocoder.swift in Sources */,
+				B76E727159379857010C364E /* PDFFormEditor.swift in Sources */,
 				DF68CC0C5B5A922B981E18D0 /* RootView.swift in Sources */,
 				CAB99BC0019C09F4BC0481D2 /* Secrets.swift in Sources */,
 				E08C63F0D58B227D0F385D19 /* SendJobSheet.swift in Sources */,

@@ -24,7 +24,7 @@ final class AdminFormsViewModel: ObservableObject {
                 createdBy: UUID(),
                 title: status.title,
                 blankFilePath: status.blankFilePath,
-                isBroadcast: true,
+                isBroadcast: status.isBroadcast,
                 createdAt: status.createdAt
             )
             do { try await FormsService.shared.deleteForm(form) }

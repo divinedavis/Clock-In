@@ -15,7 +15,12 @@ final class FormsService {
         try await client.rpc("admin_forms_status").execute().value
     }
 
-    func uploadBlankForm(title: String, data: Data) async throws -> DirectDepositForm {
+    func uploadBlankForm(
+        title: String,
+        data: Data,
+        broadcast: Bool,
+        recipientUserIds: [UUID]
+    ) async throws -> DirectDepositForm {
         let id = UUID()
         let path = "blank/\(id.uuidString).pdf"
         _ = try await client.storage.from(bucket).upload(
@@ -23,14 +28,26 @@ final class FormsService {
             data: data,
             options: FileOptions(contentType: "application/pdf", upsert: false)
         )
-        let payload = NewDirectDepositForm(title: title, blankFilePath: path, isBroadcast: true)
+        let payload = NewDirectDepositForm(
+            title: title,
+            blankFilePath: path,
+            isBroadcast: broadcast
+        )
         let inserted: DirectDepositForm = try await client.from(formsTable)
             .insert(payload, returning: .representation)
             .select()
             .single()
             .execute()
             .value
+        if !broadcast && !recipientUserIds.isEmpty {
+            let rows = recipientUserIds.map { FormRecipientRow(formId: inserted.id, userId: $0) }
+            _ = try await client.from("form_recipients").insert(rows).execute()
+        }
         return inserted
+    }
+
+    func downloadBlank(path: String) async throws -> Data {
+        try await client.storage.from(bucket).download(path: path)
     }
 
     func deleteForm(_ form: DirectDepositForm) async throws {
