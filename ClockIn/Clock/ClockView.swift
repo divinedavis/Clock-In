@@ -6,13 +6,11 @@ struct ClockView: View {
     @StateObject private var vm = ClockViewModel()
     @StateObject private var location = LocationManager()
 
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
     var body: some View {
         NavigationStack {
             VStack(spacing: 28) {
-                statusHeader
                 Spacer()
+                statusLabel
                 bigButton
                 Spacer()
                 locationFooter
@@ -24,30 +22,23 @@ struct ClockView: View {
                 location.requestPermissionIfNeeded()
                 await vm.loadOpenEntry()
             }
-            .onReceive(timer) { vm.now = $0 }
             .alert("Error", isPresented: .constant(vm.errorMessage != nil), presenting: vm.errorMessage) { _ in
                 Button("OK") { vm.errorMessage = nil }
             } message: { Text($0) }
         }
     }
 
-    private var statusHeader: some View {
-        VStack(spacing: 8) {
+    private var statusLabel: some View {
+        VStack(spacing: 4) {
             Text(vm.isClockedIn ? "Clocked In" : "Clocked Out")
                 .font(.headline)
                 .foregroundColor(vm.isClockedIn ? .green : .secondary)
-            Text(vm.elapsedString)
-                .font(.system(size: 56, weight: .semibold, design: .rounded))
-                .monospacedDigit()
             if let start = vm.activeEntry?.clockInAt {
                 Text("Since \(start.formatted(date: .omitted, time: .shortened))")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
         }
-        .frame(maxWidth: .infinity)
-        .padding()
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 20))
     }
 
     private var bigButton: some View {

@@ -6,16 +6,10 @@ final class ClockViewModel: ObservableObject {
     @Published var activeEntry: TimeEntry?
     @Published var isWorking = false
     @Published var errorMessage: String?
-    @Published var now = Date()
 
     private let service = TimeEntryService.shared
 
     var isClockedIn: Bool { activeEntry != nil }
-
-    var elapsedString: String {
-        guard let start = activeEntry?.clockInAt else { return "00:00:00" }
-        return TimeEntry.durationString(now.timeIntervalSince(start))
-    }
 
     func loadOpenEntry() async {
         do {
