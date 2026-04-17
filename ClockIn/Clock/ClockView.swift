@@ -93,8 +93,7 @@ struct ClockView: View {
             if vm.isClockedIn {
                 await vm.clockOut(location: loc)
             } else {
-                guard let userIdString = try? await SupabaseManager.shared.auth.session.user.id.uuidString,
-                      let userId = UUID(uuidString: userIdString) else {
+                guard let userId = auth.userId else {
                     vm.errorMessage = "Not signed in."
                     return
                 }
