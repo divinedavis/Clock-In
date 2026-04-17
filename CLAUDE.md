@@ -11,6 +11,7 @@ A simple iOS SwiftUI app for clocking in and out of work with location tracking 
 - **Repo:** https://github.com/divinedavis/Clock-In
 - **Local path:** `~/Desktop/Clock-In`
 - **Bundle ID:** `com.divinedavis.ClockIn`
+- **Apple Developer:** user has a paid Apple Developer Program account (divinejdavis@gmail.com) — app can be signed, archived, and shipped to TestFlight / App Store
 
 ## Feature surface
 
