@@ -5,8 +5,17 @@ struct AuthView: View {
     @State private var mode: Mode = .signIn
     @State private var email = ""
     @State private var password = ""
+    @State private var confirmPassword = ""
 
     enum Mode { case signIn, signUp }
+
+    private var passwordsMatch: Bool {
+        mode == .signIn || (!confirmPassword.isEmpty && password == confirmPassword)
+    }
+
+    private var canSubmit: Bool {
+        !auth.isWorking && !email.isEmpty && !password.isEmpty && passwordsMatch
+    }
 
     var body: some View {
         NavigationStack {
@@ -31,6 +40,19 @@ struct AuthView: View {
                         .textContentType(mode == .signIn ? .password : .newPassword)
                         .padding()
                         .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 10))
+
+                    if mode == .signUp {
+                        SecureField("Confirm password", text: $confirmPassword)
+                            .textContentType(.newPassword)
+                            .padding()
+                            .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 10))
+                    }
+                }
+
+                if mode == .signUp && !confirmPassword.isEmpty && password != confirmPassword {
+                    Text("Passwords don't match")
+                        .font(.footnote)
+                        .foregroundStyle(.red)
                 }
 
                 if let error = auth.errorMessage {
@@ -54,10 +76,11 @@ struct AuthView: View {
                     .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 12))
                     .foregroundStyle(.white)
                 }
-                .disabled(auth.isWorking || email.isEmpty || password.isEmpty)
+                .disabled(!canSubmit)
 
                 Button(mode == .signIn ? "Need an account? Sign up" : "Have an account? Sign in") {
                     mode = (mode == .signIn) ? .signUp : .signIn
+                    confirmPassword = ""
                     auth.errorMessage = nil
                 }
                 .font(.footnote)
