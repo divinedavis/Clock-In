@@ -26,8 +26,8 @@ final class TimeEntryService {
         return rows.first
     }
 
-    func clockIn(userId: UUID, at date: Date, lat: Double?, lng: Double?) async throws -> TimeEntry {
-        let payload = NewTimeEntry(userId: userId, clockInAt: date, clockInLat: lat, clockInLng: lng)
+    func clockIn(at date: Date, lat: Double?, lng: Double?) async throws -> TimeEntry {
+        let payload = NewTimeEntry(clockInAt: date, clockInLat: lat, clockInLng: lng)
         let inserted: TimeEntry = try await client.from(table)
             .insert(payload, returning: .representation)
             .select()

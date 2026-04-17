@@ -3,7 +3,7 @@
 
 create table if not exists public.time_entries (
     id uuid primary key default gen_random_uuid(),
-    user_id uuid not null references auth.users(id) on delete cascade,
+    user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
     clock_in_at timestamptz not null,
     clock_out_at timestamptz,
     clock_in_lat double precision,
@@ -15,6 +15,9 @@ create table if not exists public.time_entries (
 
 create index if not exists time_entries_user_id_idx
     on public.time_entries (user_id, clock_in_at desc);
+
+-- Ensure existing tables (pre-default) get the default applied idempotently.
+alter table public.time_entries alter column user_id set default auth.uid();
 
 alter table public.time_entries enable row level security;
 

@@ -36,13 +36,11 @@ struct TimeEntry: Identifiable, Codable, Equatable {
 }
 
 struct NewTimeEntry: Encodable {
-    var userId: UUID
     var clockInAt: Date
     var clockInLat: Double?
     var clockInLng: Double?
 
     enum CodingKeys: String, CodingKey {
-        case userId = "user_id"
         case clockInAt = "clock_in_at"
         case clockInLat = "clock_in_lat"
         case clockInLng = "clock_in_lng"

@@ -93,11 +93,7 @@ struct ClockView: View {
             if vm.isClockedIn {
                 await vm.clockOut(location: loc)
             } else {
-                guard let userId = auth.userId else {
-                    vm.errorMessage = "Not signed in."
-                    return
-                }
-                await vm.clockIn(userId: userId, location: loc)
+                await vm.clockIn(location: loc)
             }
         }
     }

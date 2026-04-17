@@ -19,13 +19,12 @@ final class ClockViewModel: ObservableObject {
         }
     }
 
-    func clockIn(userId: UUID, location: CLLocation?) async {
+    func clockIn(location: CLLocation?) async {
         isWorking = true
         errorMessage = nil
         defer { isWorking = false }
         do {
             activeEntry = try await service.clockIn(
-                userId: userId,
                 at: Date(),
                 lat: location?.coordinate.latitude,
                 lng: location?.coordinate.longitude
