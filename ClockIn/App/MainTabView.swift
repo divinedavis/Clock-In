@@ -10,13 +10,17 @@ struct MainTabView: View {
                     .tabItem { Label("Users", systemImage: "person.3.fill") }
                 AdminJobsView()
                     .tabItem { Label("Jobs", systemImage: "briefcase.fill") }
+                CalendarView()
+                    .tabItem { Label("Calendar", systemImage: "calendar") }
             } else {
                 ClockView()
                     .tabItem { Label("Clock", systemImage: "clock.fill") }
                 JobsView()
                     .tabItem { Label("Jobs", systemImage: "briefcase.fill") }
+                CalendarView()
+                    .tabItem { Label("Calendar", systemImage: "calendar") }
                 HistoryView()
-                    .tabItem { Label("History", systemImage: "calendar") }
+                    .tabItem { Label("History", systemImage: "clock.arrow.circlepath") }
             }
             AccountView()
                 .tabItem { Label("Account", systemImage: "person.circle") }

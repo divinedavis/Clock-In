@@ -183,3 +183,45 @@ as $$
     order by u.email;
 $$;
 grant execute on function public.admin_list_users() to authenticated;
+
+-- Jobs list with recipient emails (for admin calendar view).
+create or replace function public.admin_jobs_with_recipients()
+returns table (
+    id uuid,
+    title text,
+    address text,
+    location_lat double precision,
+    location_lng double precision,
+    scheduled_at timestamptz,
+    notes text,
+    is_broadcast boolean,
+    recipient_emails text[]
+)
+security definer
+set search_path = public, auth
+language sql stable
+as $$
+    select
+        j.id,
+        j.title,
+        j.address,
+        j.location_lat,
+        j.location_lng,
+        j.scheduled_at,
+        j.notes,
+        j.is_broadcast,
+        case when j.is_broadcast then array['* all users *']
+             else coalesce(
+                array(
+                    select u.email::text from public.job_recipients jr
+                    join auth.users u on u.id = jr.user_id
+                    where jr.job_id = j.id
+                    order by u.email
+                ),
+                array[]::text[])
+        end as recipient_emails
+    from public.jobs j
+    where exists (select 1 from public.admins where user_id = auth.uid())
+    order by j.scheduled_at;
+$$;
+grant execute on function public.admin_jobs_with_recipients() to authenticated;

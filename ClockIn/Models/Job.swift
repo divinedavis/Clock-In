@@ -66,3 +66,27 @@ struct UserRow: Identifiable, Codable, Hashable {
         case email
     }
 }
+
+struct JobWithRecipients: Identifiable, Codable, Equatable {
+    var id: UUID
+    var title: String
+    var address: String?
+    var locationLat: Double?
+    var locationLng: Double?
+    var scheduledAt: Date
+    var notes: String?
+    var isBroadcast: Bool
+    var recipientEmails: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case title
+        case address
+        case locationLat = "location_lat"
+        case locationLng = "location_lng"
+        case scheduledAt = "scheduled_at"
+        case notes
+        case isBroadcast = "is_broadcast"
+        case recipientEmails = "recipient_emails"
+    }
+}

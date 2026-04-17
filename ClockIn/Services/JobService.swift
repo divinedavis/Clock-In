@@ -28,6 +28,10 @@ final class JobService {
         try await client.rpc("admin_list_users").execute().value
     }
 
+    func fetchAllJobsWithRecipients() async throws -> [JobWithRecipients] {
+        try await client.rpc("admin_jobs_with_recipients").execute().value
+    }
+
     func createJob(
         title: String,
         address: String?,
