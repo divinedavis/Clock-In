@@ -42,20 +42,25 @@ create policy "users delete own entries"
     on public.time_entries for delete
     using (auth.uid() = user_id);
 
--- Admin allow-list by email.
+-- Admin allow-list keyed by immutable user_id (email kept for reference only).
 create table if not exists public.admins (
-    email text primary key,
+    user_id uuid primary key references auth.users(id) on delete cascade,
+    email text,
     created_at timestamptz not null default now()
 );
+
+create unique index if not exists admins_email_key on public.admins(email);
 
 alter table public.admins enable row level security;
 -- No public policies: only security-definer functions access this table.
 
--- Seed initial admin (idempotent).
-insert into public.admins (email) values ('mr.halls@me.com')
-    on conflict (email) do nothing;
+-- Seed initial admin by email lookup (idempotent).
+insert into public.admins (user_id, email)
+    select id, email from auth.users where email = 'mr.halls@me.com'
+    on conflict (user_id) do nothing;
 
--- Is the calling user an admin?
+-- Is the calling user an admin? Checked by user_id so email changes can't
+-- elevate privileges even if Supabase email-change policy is loosened.
 create or replace function public.is_admin()
 returns boolean
 security definer
@@ -63,7 +68,7 @@ set search_path = public
 language sql stable
 as $$
     select exists (
-        select 1 from public.admins where email = auth.email()
+        select 1 from public.admins where user_id = auth.uid()
     );
 $$;
 
@@ -104,7 +109,7 @@ as $$
         te.clock_out_lng
     from public.time_entries te
     join auth.users u on u.id = te.user_id
-    where exists (select 1 from public.admins where email = auth.email())
+    where exists (select 1 from public.admins where user_id = auth.uid())
     order by te.clock_in_at desc;
 $$;
 
