@@ -10,6 +10,7 @@ final class AuthViewModel: ObservableObject {
     @Published var isWorking = false
     @Published private(set) var userEmail: String?
     @Published private(set) var userId: UUID?
+    @Published private(set) var isAdmin: Bool = false
 
     private let client = SupabaseManager.shared
 
@@ -19,6 +20,7 @@ final class AuthViewModel: ObservableObject {
             userEmail = session.user.email
             userId = session.user.id
             state = .signedIn
+            await refreshIsAdmin()
         } catch {
             state = .signedOut
         }
@@ -33,6 +35,7 @@ final class AuthViewModel: ObservableObject {
             userEmail = session.user.email
             userId = session.user.id
             state = .signedIn
+            await refreshIsAdmin()
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -48,6 +51,7 @@ final class AuthViewModel: ObservableObject {
                 userEmail = response.user.email
                 userId = response.user.id
                 state = .signedIn
+                await refreshIsAdmin()
             } else {
                 errorMessage = "Check your email to confirm your account, then sign in."
             }
@@ -61,9 +65,19 @@ final class AuthViewModel: ObservableObject {
             try await client.auth.signOut()
             userEmail = nil
             userId = nil
+            isAdmin = false
             state = .signedOut
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    private func refreshIsAdmin() async {
+        do {
+            let value: Bool = try await client.rpc("is_admin").execute().value
+            isAdmin = value
+        } catch {
+            isAdmin = false
         }
     }
 }
