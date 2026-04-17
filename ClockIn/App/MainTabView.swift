@@ -12,8 +12,6 @@ struct MainTabView: View {
                     .tabItem { Label("Jobs", systemImage: "briefcase.fill") }
                 CalendarView()
                     .tabItem { Label("Calendar", systemImage: "calendar") }
-                AdminFormsView()
-                    .tabItem { Label("Forms", systemImage: "doc.text.fill") }
             } else {
                 ClockView()
                     .tabItem { Label("Clock", systemImage: "clock.fill") }
@@ -21,8 +19,8 @@ struct MainTabView: View {
                     .tabItem { Label("Jobs", systemImage: "briefcase.fill") }
                 CalendarView()
                     .tabItem { Label("Calendar", systemImage: "calendar") }
-                FormsView()
-                    .tabItem { Label("Forms", systemImage: "doc.text.fill") }
+                HistoryView()
+                    .tabItem { Label("History", systemImage: "clock.arrow.circlepath") }
             }
             AccountView()
                 .tabItem { Label("Account", systemImage: "person.circle") }
