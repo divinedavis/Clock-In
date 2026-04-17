@@ -19,8 +19,8 @@ final class AuthViewModel: ObservableObject {
             let session = try await client.auth.session
             userEmail = session.user.email
             userId = session.user.id
-            state = .signedIn
             await refreshIsAdmin()
+            state = .signedIn
         } catch {
             state = .signedOut
         }
@@ -34,8 +34,8 @@ final class AuthViewModel: ObservableObject {
             let session = try await client.auth.signIn(email: email, password: password)
             userEmail = session.user.email
             userId = session.user.id
-            state = .signedIn
             await refreshIsAdmin()
+            state = .signedIn
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -50,8 +50,8 @@ final class AuthViewModel: ObservableObject {
             if response.session != nil {
                 userEmail = response.user.email
                 userId = response.user.id
-                state = .signedIn
                 await refreshIsAdmin()
+                state = .signedIn
             } else {
                 errorMessage = "Check your email to confirm your account, then sign in."
             }
