@@ -37,6 +37,7 @@
 		7331DE0FD7CB73A47ED418C1 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58451F3F8DDFE25A16E93B3E /* CalendarViewModel.swift */; };
 		7389DFC784572461C7265B7D /* FormsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E4FCD42A4C22D34E490D6F /* FormsViewModel.swift */; };
 		7718F5944912769341BA6DCF /* ClockInApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD78255F9C9040F9B6D268C0 /* ClockInApp.swift */; };
+		8B5C6DB26F4E2C11EF49EA4F /* AppleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6C2EDAACB45FC861953CCF /* AppleSignIn.swift */; };
 		8B6C0287221AEDE4CACF862A /* AdminJobsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9BD21714380E9C2C61BBE9 /* AdminJobsViewModel.swift */; };
 		908F0C5E7DE2CB5239B47982 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8DA30EA943900C211F46AA9D /* Supabase */; };
 		938BC2839ED82F70D56509C7 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E047371DAFD8FA67CB9AEEC8 /* CalendarView.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		080C41D0F7DAE541AD0E80D3 /* ClockIn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ClockIn.entitlements; sourceTree = "<group>"; };
 		08DA53BCFDC4FDE8B27BDE47 /* AdminTimeEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTimeEntry.swift; sourceTree = "<group>"; };
 		094CA90B3F0D69103C5B7758 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		0A6CDE60FFA67E876C0929A4 /* NewMessageSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageSheet.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 		B716BC513FAAEEC3BB3147F9 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		BAA290085C2CB7A9FB06B335 /* PDFFormEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFFormEditor.swift; sourceTree = "<group>"; };
 		BC5EFA8E68BFFE3496F05583 /* UploadFormSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadFormSheet.swift; sourceTree = "<group>"; };
+		CD6C2EDAACB45FC861953CCF /* AppleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignIn.swift; sourceTree = "<group>"; };
 		DF92C3E81048008C4FE9C9BF /* ClockIn.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ClockIn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E047371DAFD8FA67CB9AEEC8 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		FC0CD7D11F59CFFA7D1C99E9 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
@@ -172,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				B716BC513FAAEEC3BB3147F9 /* AccountView.swift */,
+				CD6C2EDAACB45FC861953CCF /* AppleSignIn.swift */,
 				6348FA0B009739433ADB1013 /* AuthView.swift */,
 				624A9D951B4B6DE73DCC85AC /* AuthViewModel.swift */,
 			);
@@ -263,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				20DDB9A64B2DA841ECBC08EE /* Assets.xcassets */,
+				080C41D0F7DAE541AD0E80D3 /* ClockIn.entitlements */,
 				8014CB64AF9250F90444FAAE /* PrivacyInfo.xcprivacy */,
 				816E67A20D0F48FA4BB5A2BE /* Secrets.swift */,
 				2B472EF988F51A227596F301 /* Admin */,
@@ -375,6 +380,7 @@
 				4B98E658739A4C4603D8FCF2 /* AdminTimeEntry.swift in Sources */,
 				67AEC8630930BDB00BA7E561 /* AdminView.swift in Sources */,
 				A63E87D4CA59E463348396DC /* AdminViewModel.swift in Sources */,
+				8B5C6DB26F4E2C11EF49EA4F /* AppleSignIn.swift in Sources */,
 				60946C733702D9F954FB9004 /* AuthView.swift in Sources */,
 				0A577EA7BFE3B623B5DDCFDF /* AuthViewModel.swift in Sources */,
 				938BC2839ED82F70D56509C7 /* CalendarView.swift in Sources */,
@@ -421,6 +427,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ClockIn/ClockIn.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -446,6 +453,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = ClockIn/ClockIn.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

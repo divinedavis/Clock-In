@@ -18,6 +18,11 @@ targets:
     platform: iOS
     sources:
       - path: ClockIn
+    entitlements:
+      path: ClockIn/ClockIn.entitlements
+      properties:
+        com.apple.developer.applesignin:
+          - Default
     dependencies:
       - package: Supabase
         product: Supabase

@@ -78,6 +78,24 @@ final class AuthViewModel: ObservableObject {
         }
     }
 
+    func signInWithApple(idToken: String, nonce: String) async {
+        isWorking = true
+        errorMessage = nil
+        defer { isWorking = false }
+        do {
+            _ = try await client.auth.signInWithIdToken(
+                credentials: OpenIDConnectCredentials(
+                    provider: .apple,
+                    idToken: idToken,
+                    nonce: nonce
+                )
+            )
+            // authStateChanges will fire and drive state.
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
     func signOut() async {
         do {
             try await client.auth.signOut()
