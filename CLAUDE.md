@@ -87,6 +87,22 @@ Then rebuild. Do not hand-edit `project.pbxproj`.
 
 Run new SQL in the Supabase SQL editor and also append to `supabase/schema.sql` so the schema is reproducible.
 
+### 6. TestFlight ships hourly when there are new commits
+
+A LaunchAgent (`scripts/com.divinedavis.clockin.testflight.plist`) runs `scripts/ship-to-testflight.sh --if-changed --auto-notes` every 3600 seconds. The `--if-changed` flag compares `HEAD` to the SHA stored in `scripts/.last-shipped-commit` (gitignored); if they match, the run is a no-op and nothing is uploaded. Release notes come from `git log --pretty=format:"- %s" <last-shipped>..HEAD`.
+
+**Install / uninstall:**
+
+```bash
+scripts/install-testflight-cron.sh     # load hourly LaunchAgent
+scripts/uninstall-testflight-cron.sh   # remove it
+tail -f scripts/.cron.out.log          # watch runs
+```
+
+Requires: user logged in (keychain must be unlocked for `codesign`), `scripts/asc-config.env` populated, and xcodegen + Xcode CLI tools installed. If a run fails, the next hourly tick retries; the marker is only updated on a successful ship.
+
+**Manual shipping still works** — just call `scripts/ship-to-testflight.sh "your notes"` without `--if-changed`.
+
 ## Database schema
 
 See `supabase/schema.sql`. One table (`public.time_entries`) with RLS policies restricting rows to `auth.uid() = user_id`.

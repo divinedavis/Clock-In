@@ -7,10 +7,19 @@
 #   - upload via altool
 #   - poll until processing completes
 #   - set "What to Test" release notes via App Store Connect API
+#   - record the shipped git commit so future --if-changed runs can no-op
 #
 # Usage:
 #   scripts/ship-to-testflight.sh "release notes text (supports \n for newlines)"
 #   scripts/ship-to-testflight.sh --marketing 1.2 "release notes for the 1.2 train"
+#   scripts/ship-to-testflight.sh --if-changed          # skip if HEAD == last shipped
+#   scripts/ship-to-testflight.sh --if-changed --auto-notes
+#
+# --if-changed     : exit 0 without shipping when HEAD == last shipped commit.
+# --auto-notes     : release notes become `git log --oneline <last>..HEAD` formatted
+#                    as a bulleted list. Useful for the hourly cron; falls back to
+#                    "Automated build — <short-sha>" if no prior marker exists.
+# --marketing X.Y  : bump MARKETING_VERSION to X.Y before archiving.
 #
 # Credentials come from scripts/asc-config.env (gitignored).
 # Copy scripts/asc-config.env.example to scripts/asc-config.env and fill in values.
@@ -46,19 +55,58 @@ PROJECT="${ASC_PROJECT:-${SCHEME}.xcodeproj}"
 
 # Parse args
 NEW_MARKETING=""
+IF_CHANGED=0
+AUTO_NOTES=0
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --marketing)
             NEW_MARKETING="$2"; shift 2;;
+        --if-changed)
+            IF_CHANGED=1; shift;;
+        --auto-notes)
+            AUTO_NOTES=1; shift;;
         -h|--help)
-            sed -n '2,20p' "$0"; exit 0;;
+            sed -n '2,30p' "$0"; exit 0;;
         -*)
             die "unknown flag: $1";;
         *)
             WHATS_NEW="$1"; shift;;
     esac
 done
-[[ -n "${WHATS_NEW:-}" ]] || die "missing release notes. usage: $0 \"notes\""
+
+MARKER="$SCRIPT_DIR/.last-shipped-commit"
+HEAD_SHA=$(git rev-parse HEAD 2>/dev/null || true)
+[[ -n "$HEAD_SHA" ]] || die "not inside a git repo — ship script requires git"
+
+# Paths whose changes actually affect the built IPA. Commits that only touch docs,
+# scripts, CI configs, etc. produce a byte-identical app and are skipped in --if-changed mode.
+BUILD_PATHS=(ClockIn project.yml)
+
+if (( IF_CHANGED )) && [[ -f "$MARKER" ]]; then
+    LAST_SHA=$(cat "$MARKER")
+    if [[ "$LAST_SHA" == "$HEAD_SHA" ]]; then
+        info "no new commits since last shipped ($LAST_SHA). skipping."
+        exit 0
+    fi
+    if git diff --quiet "${LAST_SHA}..HEAD" -- "${BUILD_PATHS[@]}"; then
+        info "no build-affecting changes in ${BUILD_PATHS[*]} since $LAST_SHA. skipping."
+        echo "$HEAD_SHA" > "$MARKER"
+        exit 0
+    fi
+fi
+
+# Generate release notes from git log if --auto-notes requested.
+if (( AUTO_NOTES )) && [[ -z "${WHATS_NEW:-}" ]]; then
+    if [[ -f "$MARKER" ]]; then
+        LAST_SHA=$(cat "$MARKER")
+        WHATS_NEW=$(git log --pretty=format:"- %s" "${LAST_SHA}..HEAD" 2>/dev/null || echo "")
+    fi
+    if [[ -z "${WHATS_NEW:-}" ]]; then
+        WHATS_NEW="Automated build — $(git rev-parse --short HEAD)"
+    fi
+fi
+
+[[ -n "${WHATS_NEW:-}" ]] || die "missing release notes. usage: $0 \"notes\" (or --auto-notes)"
 
 # ---------- bump version numbers ----------
 CURRENT_BUILD=$(awk -F'"' '/CURRENT_PROJECT_VERSION:/ {print $2; exit}' project.yml)
@@ -146,4 +194,5 @@ python3 "$SCRIPT_DIR/asc_set_whats_new.py" \
     --key-path "$ASC_KEY_PATH" \
     --whats-new "$WHATS_NEW"
 
-info "✓ shipped ${MARKETING} (${NEXT_BUILD})"
+echo "$HEAD_SHA" > "$MARKER"
+info "✓ shipped ${MARKETING} (${NEXT_BUILD}) — marker updated to $HEAD_SHA"

@@ -26,3 +26,4 @@ Carthage/Build/
 # App secrets — never commit
 ClockIn/Secrets.swift
 scripts/asc-config.env
+scripts/.last-shipped-commit
