@@ -68,10 +68,12 @@ struct ClockView: View {
     }
 
     private var footer: some View {
-        VStack(spacing: 6) {
-            Text(vm.isClockedIn ? "Tap clock to clock out" : "Tap clock to clock in")
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(.white.opacity(0.85))
+        VStack(spacing: 10) {
+            Text(vm.isClockedIn ? "CLOCKED IN" : "CLOCKED OUT")
+                .font(.system(size: 32, weight: .heavy, design: .rounded))
+                .tracking(2)
+                .foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.25), radius: 6, y: 2)
             if let loc = location.lastLocation {
                 Text(String(format: "%.4f, %.4f", loc.coordinate.latitude, loc.coordinate.longitude))
                     .font(.caption.monospacedDigit())
