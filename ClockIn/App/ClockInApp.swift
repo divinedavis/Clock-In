@@ -8,7 +8,7 @@ struct ClockInApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(auth)
-                .task { await auth.restoreSession() }
+                .task { auth.startObservingAuth() }
         }
     }
 }

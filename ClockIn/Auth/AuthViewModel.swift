@@ -13,16 +13,41 @@ final class AuthViewModel: ObservableObject {
     @Published private(set) var isAdmin: Bool = false
 
     private let client = SupabaseManager.shared
+    private var authChangesTask: Task<Void, Never>?
 
-    func restoreSession() async {
-        do {
-            let session = try await client.auth.session
-            userEmail = session.user.email
-            userId = session.user.id
-            await refreshIsAdmin()
-            state = .signedIn
-        } catch {
+    func startObservingAuth() {
+        authChangesTask?.cancel()
+        authChangesTask = Task { [weak self] in
+            guard let self else { return }
+            for await (event, session) in await self.client.auth.authStateChanges {
+                if Task.isCancelled { break }
+                await self.handle(event: event, session: session)
+            }
+        }
+    }
+
+    deinit {
+        authChangesTask?.cancel()
+    }
+
+    private func handle(event: AuthChangeEvent, session: Session?) async {
+        switch event {
+        case .initialSession, .signedIn, .tokenRefreshed, .userUpdated:
+            if let session {
+                userEmail = session.user.email
+                userId = session.user.id
+                await refreshIsAdmin()
+                state = .signedIn
+            } else {
+                state = .signedOut
+            }
+        case .signedOut, .userDeleted:
+            userEmail = nil
+            userId = nil
+            isAdmin = false
             state = .signedOut
+        default:
+            break
         }
     }
 
@@ -31,11 +56,8 @@ final class AuthViewModel: ObservableObject {
         errorMessage = nil
         defer { isWorking = false }
         do {
-            let session = try await client.auth.signIn(email: email, password: password)
-            userEmail = session.user.email
-            userId = session.user.id
-            await refreshIsAdmin()
-            state = .signedIn
+            _ = try await client.auth.signIn(email: email, password: password)
+            // authStateChanges will fire and drive state.
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -47,14 +69,10 @@ final class AuthViewModel: ObservableObject {
         defer { isWorking = false }
         do {
             let response = try await client.auth.signUp(email: email, password: password)
-            if response.session != nil {
-                userEmail = response.user.email
-                userId = response.user.id
-                await refreshIsAdmin()
-                state = .signedIn
-            } else {
+            if response.session == nil {
                 errorMessage = "Check your email to confirm your account, then sign in."
             }
+            // If a session was returned, authStateChanges will fire.
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -63,10 +81,7 @@ final class AuthViewModel: ObservableObject {
     func signOut() async {
         do {
             try await client.auth.signOut()
-            userEmail = nil
-            userId = nil
-            isAdmin = false
-            state = .signedOut
+            // authStateChanges will fire with .signedOut.
         } catch {
             errorMessage = error.localizedDescription
         }
