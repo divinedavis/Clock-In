@@ -239,7 +239,6 @@ private struct AnalogClock: View {
                     length: r * 0.5,
                     thickness: r * 0.055,
                     color: .white,
-                    label: activeEntry != nil ? "Clocked In" : nil,
                     center: center
                 )
 
@@ -249,7 +248,6 @@ private struct AnalogClock: View {
                     length: r * 0.78,
                     thickness: r * 0.035,
                     color: .white.opacity(0.9),
-                    label: activeEntry.map { shortTime($0.clockInAt) },
                     center: center
                 )
 
@@ -281,10 +279,6 @@ private struct AnalogClock: View {
         return (m + s / 60) * 6 - 90
     }
 
-    private func shortTime(_ d: Date) -> String {
-        d.formatted(date: .omitted, time: .shortened)
-    }
-
     private func pointOnCircle(angleDeg: Double, radius: Double, center: CGPoint) -> CGPoint {
         let rad = angleDeg * .pi / 180
         return CGPoint(x: center.x + cos(rad) * radius, y: center.y + sin(rad) * radius)
@@ -296,36 +290,14 @@ private struct ClockHand: View {
     let length: Double
     let thickness: Double
     let color: Color
-    let label: String?
     let center: CGPoint
 
     var body: some View {
-        ZStack {
-            // The rod
-            Capsule()
-                .fill(color)
-                .frame(width: thickness, height: length)
-                .offset(y: -length / 2)
-                .rotationEffect(.degrees(angleDegrees + 90))
-                .position(center)
-
-            // Optional label along the hand (like the reference "around the clock")
-            if let label, !label.isEmpty {
-                Capsule()
-                    .fill(Color.white)
-                    .overlay(
-                        Text(label)
-                            .font(.system(size: max(10, thickness * 2.2), weight: .semibold, design: .rounded))
-                            .foregroundStyle(.black)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.7)
-                            .padding(.horizontal, 8)
-                    )
-                    .frame(width: length * 0.7, height: thickness * 3)
-                    .offset(y: -length * 0.55)
-                    .rotationEffect(.degrees(angleDegrees + 90))
-                    .position(center)
-            }
-        }
+        Capsule()
+            .fill(color)
+            .frame(width: thickness, height: length)
+            .offset(y: -length / 2)
+            .rotationEffect(.degrees(angleDegrees + 90))
+            .position(center)
     }
 }
