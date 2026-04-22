@@ -87,21 +87,14 @@ Then rebuild. Do not hand-edit `project.pbxproj`.
 
 Run new SQL in the Supabase SQL editor and also append to `supabase/schema.sql` so the schema is reproducible.
 
-### 6. TestFlight ships hourly when there are new commits
+### 6. Ship a TestFlight build after every change
 
-A LaunchAgent (`scripts/com.divinedavis.clockin.testflight.plist`) runs `scripts/ship-to-testflight.sh --if-changed --auto-notes` every 3600 seconds. The `--if-changed` flag compares `HEAD` to the SHA stored in `scripts/.last-shipped-commit` (gitignored); if they match, the run is a no-op and nothing is uploaded. Release notes come from `git log --pretty=format:"- %s" <last-shipped>..HEAD`.
+Run `scripts/ship-to-testflight.sh --auto-notes` after every commit that touches app code. The hourly LaunchAgent has been removed — shipping is now per-change so TestFlight stays in lockstep with `main`.
 
-**Install / uninstall:**
-
-```bash
-scripts/install-testflight-cron.sh     # load hourly LaunchAgent
-scripts/uninstall-testflight-cron.sh   # remove it
-tail -f scripts/.cron.out.log          # watch runs
-```
-
-Requires: user logged in (keychain must be unlocked for `codesign`), `scripts/asc-config.env` populated, and xcodegen + Xcode CLI tools installed. If a run fails, the next hourly tick retries; the marker is only updated on a successful ship.
-
-**Manual shipping still works** — just call `scripts/ship-to-testflight.sh "your notes"` without `--if-changed`.
+- `--auto-notes` reads `scripts/.last-shipped-commit` (gitignored) and formats release notes from `git log --pretty=format:"- %s" <last-shipped>..HEAD`.
+- Each ship bumps `CURRENT_PROJECT_VERSION` by 1 automatically. `MARKETING_VERSION` only changes when you pass `--marketing X.Y`.
+- Requires `scripts/asc-config.env` populated, keychain unlocked (for `codesign`), and xcodegen + Xcode CLI tools installed.
+- Ships take 10–25 min end-to-end; Claude runs them in the background and waits for the task notification before starting another.
 
 ## Database schema
 
