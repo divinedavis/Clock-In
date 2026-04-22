@@ -149,15 +149,19 @@ struct AuthView: View {
                 let tokenData = credential.identityToken,
                 let idToken = String(data: tokenData, encoding: .utf8)
             else {
-                auth.errorMessage = "Apple sign-in did not return a valid credential."
+                auth.errorMessage = "Couldn't sign in with Apple. Try again or continue with email."
                 return
             }
             Task { await auth.signInWithApple(idToken: idToken, nonce: nonce) }
         case .failure(let error):
-            if (error as NSError).code == ASAuthorizationError.canceled.rawValue {
+            let code = (error as NSError).code
+            if code == ASAuthorizationError.canceled.rawValue {
                 return // user tapped cancel — no error surface
             }
-            auth.errorMessage = error.localizedDescription
+            #if DEBUG
+            print("Apple sign-in failed: \(error)")
+            #endif
+            auth.errorMessage = "Couldn't sign in with Apple. Try again or continue with email."
         }
     }
 }

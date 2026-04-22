@@ -92,7 +92,10 @@ final class AuthViewModel: ObservableObject {
             )
             // authStateChanges will fire and drive state.
         } catch {
-            errorMessage = error.localizedDescription
+            #if DEBUG
+            print("Apple sign-in via Supabase failed: \(error)")
+            #endif
+            errorMessage = "Couldn't sign in with Apple. Try again or continue with email."
         }
     }
 
