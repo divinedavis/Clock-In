@@ -19,6 +19,7 @@
 		2D8FBF1714D2FD5B771BE406 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70D9D97FAEC8FF3F3EE126B4 /* MessageService.swift */; };
 		3087722C9E4C70B80F7450F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20DDB9A64B2DA841ECBC08EE /* Assets.xcassets */; };
 		336733E1B29400EBA90EBF8B /* TimeEntryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF6BDF3F5F6AB075679A546 /* TimeEntryService.swift */; };
+		37B8F59B9158B29FD474BB0A /* Credential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4714684089D047A557E60856 /* Credential.swift */; };
 		3BCC5FBEDA42BD6AB3B7F13E /* AddressCompleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAFA55AD6379AAB600FFC05 /* AddressCompleter.swift */; };
 		448D02206174073B043866D1 /* AdminFormsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585C9DE197E9A619F8A9E5E /* AdminFormsViewModel.swift */; };
 		4B98E658739A4C4603D8FCF2 /* AdminTimeEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DA53BCFDC4FDE8B27BDE47 /* AdminTimeEntry.swift */; };
@@ -32,6 +33,7 @@
 		60946C733702D9F954FB9004 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6348FA0B009739433ADB1013 /* AuthView.swift */; };
 		67AEC8630930BDB00BA7E561 /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B508949FDD1C2094199763F4 /* AdminView.swift */; };
 		6A8A29A024EB8E73A0F185A7 /* NeighborhoodGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB38CF5058EA1EE126B46A9 /* NeighborhoodGeocoder.swift */; };
+		6F8953D3FFFE0A7629EF9CCA /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9E64BC1230D4C1D6452F73 /* CameraPicker.swift */; };
 		6FFF88BC74EF629EAC1AE5E4 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6160F5B6381D1CF0AA4E /* HistoryView.swift */; };
 		7013EF3F538CCBC48DC6CED0 /* AdminFormDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384E14FBAB3A0B6D04B08D93 /* AdminFormDetailView.swift */; };
 		7331DE0FD7CB73A47ED418C1 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58451F3F8DDFE25A16E93B3E /* CalendarViewModel.swift */; };
@@ -50,10 +52,12 @@
 		C15AC6B63CEBBE0DAED30B86 /* ThreadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71D53C6A745349E93CFC32 /* ThreadViewModel.swift */; };
 		C2D58D9E3EAF91BDFF0FB6FC /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = A644AD5C2D59B15708C13FBA /* Job.swift */; };
 		C59F5F20ED6EDE6E444B676D /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094CA90B3F0D69103C5B7758 /* Message.swift */; };
+		C970FA23278A2C36DF0C39EB /* CredentialUploadSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C3B6290C694F78494CB61 /* CredentialUploadSheet.swift */; };
 		CAB99BC0019C09F4BC0481D2 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816E67A20D0F48FA4BB5A2BE /* Secrets.swift */; };
 		D30B39F208E31858AAD063BA /* UploadFormSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5EFA8E68BFFE3496F05583 /* UploadFormSheet.swift */; };
 		D5637DB949471C6AA9DC385F /* DirectDepositForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC42F3D3DCC49FBE1476EE26 /* DirectDepositForm.swift */; };
 		D6FADCD1AEF92A738AC3A755 /* FormsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2120349F5BA9FFF8737C5F21 /* FormsView.swift */; };
+		DB7D76A1D45CA7F003535A41 /* CredentialsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32361205CA32A788A4E60DA0 /* CredentialsService.swift */; };
 		DF68CC0C5B5A922B981E18D0 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9928373F4FEF9009617D17AB /* RootView.swift */; };
 		E08C63F0D58B227D0F385D19 /* SendJobSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F58A727CCA837791BCF259 /* SendJobSheet.swift */; };
 		EFDE53CBA57B333FAA7E46CC /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B716BC513FAAEEC3BB3147F9 /* AccountView.swift */; };
@@ -72,9 +76,13 @@
 		2120349F5BA9FFF8737C5F21 /* FormsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsView.swift; sourceTree = "<group>"; };
 		28A20D048D5255BA424FECEE /* ClockViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockViewModel.swift; sourceTree = "<group>"; };
 		2D1E21F9F2B697394C37539B /* JobService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobService.swift; sourceTree = "<group>"; };
+		32361205CA32A788A4E60DA0 /* CredentialsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsService.swift; sourceTree = "<group>"; };
 		335C84814C3520D68875B751 /* AdminJobsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminJobsView.swift; sourceTree = "<group>"; };
 		384E14FBAB3A0B6D04B08D93 /* AdminFormDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFormDetailView.swift; sourceTree = "<group>"; };
 		3B8E9D8FF7FB6447DE3A4DD7 /* ClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockView.swift; sourceTree = "<group>"; };
+		3C9E64BC1230D4C1D6452F73 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
+		3F9C3B6290C694F78494CB61 /* CredentialUploadSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialUploadSheet.swift; sourceTree = "<group>"; };
+		4714684089D047A557E60856 /* Credential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credential.swift; sourceTree = "<group>"; };
 		4A66D77A088ED837789E0EB6 /* ThreadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadView.swift; sourceTree = "<group>"; };
 		4E4D6160F5B6381D1CF0AA4E /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		56B04B4B1F3B24735D715B32 /* JobsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsViewModel.swift; sourceTree = "<group>"; };
@@ -227,6 +235,7 @@
 		6803EEA0736007C91D965C9C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4714684089D047A557E60856 /* Credential.swift */,
 				FC42F3D3DCC49FBE1476EE26 /* DirectDepositForm.swift */,
 				A644AD5C2D59B15708C13FBA /* Job.swift */,
 				094CA90B3F0D69103C5B7758 /* Message.swift */,
@@ -252,9 +261,19 @@
 			path = History;
 			sourceTree = "<group>";
 		};
+		B3C45FE848030303887EFB42 /* Credentials */ = {
+			isa = PBXGroup;
+			children = (
+				3C9E64BC1230D4C1D6452F73 /* CameraPicker.swift */,
+				3F9C3B6290C694F78494CB61 /* CredentialUploadSheet.swift */,
+			);
+			path = Credentials;
+			sourceTree = "<group>";
+		};
 		E991D6FA3AB93521361F32A8 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				32361205CA32A788A4E60DA0 /* CredentialsService.swift */,
 				9A61649D9CBDF153C1A9DD89 /* FormsService.swift */,
 				2D1E21F9F2B697394C37539B /* JobService.swift */,
 				70D9D97FAEC8FF3F3EE126B4 /* MessageService.swift */,
@@ -275,6 +294,7 @@
 				2F8E1A7179D4BEE1ECC3099C /* Auth */,
 				0DC04092139D7B4EE799C967 /* Calendar */,
 				2AA4F41B636E78BB8AF38450 /* Clock */,
+				B3C45FE848030303887EFB42 /* Credentials */,
 				6487D3B9D8B2128B58C6E208 /* Forms */,
 				83B3771B5D2260245246A67F /* History */,
 				4DAF7D46172432E29EFE595A /* Jobs */,
@@ -385,9 +405,13 @@
 				0A577EA7BFE3B623B5DDCFDF /* AuthViewModel.swift in Sources */,
 				938BC2839ED82F70D56509C7 /* CalendarView.swift in Sources */,
 				7331DE0FD7CB73A47ED418C1 /* CalendarViewModel.swift in Sources */,
+				6F8953D3FFFE0A7629EF9CCA /* CameraPicker.swift in Sources */,
 				7718F5944912769341BA6DCF /* ClockInApp.swift in Sources */,
 				2707E39FB309A95FD615A36A /* ClockView.swift in Sources */,
 				4C5D0022F34925EA55576B7C /* ClockViewModel.swift in Sources */,
+				37B8F59B9158B29FD474BB0A /* Credential.swift in Sources */,
+				C970FA23278A2C36DF0C39EB /* CredentialUploadSheet.swift in Sources */,
+				DB7D76A1D45CA7F003535A41 /* CredentialsService.swift in Sources */,
 				D5637DB949471C6AA9DC385F /* DirectDepositForm.swift in Sources */,
 				18590DD3F3FD87D0852E2246 /* FillFormView.swift in Sources */,
 				4E8C60DBC55A9C8E45B3B674 /* FormsService.swift in Sources */,
@@ -432,7 +456,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Clock In uses the camera so you can take photos of your OSHA 30 card, flagger card, and other credentials.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Clock In uses your location to record where you clocked in and out.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Clock In uses your photo library so you can attach photos of your credentials from your camera roll.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -458,7 +484,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Clock In uses the camera so you can take photos of your OSHA 30 card, flagger card, and other credentials.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Clock In uses your location to record where you clocked in and out.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Clock In uses your photo library so you can attach photos of your credentials from your camera roll.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

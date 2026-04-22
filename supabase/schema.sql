@@ -496,3 +496,41 @@ as $$
     order by u.email;
 $$;
 grant execute on function public.list_messageable_users() to authenticated;
+
+-- User-uploaded credentials: OSHA 30, flagger card, etc.
+create table if not exists public.credentials (
+    id uuid primary key default gen_random_uuid(),
+    user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+    kind text not null check (kind in ('osha_30', 'flagger_card')),
+    file_path text not null,
+    content_type text,
+    uploaded_at timestamptz not null default now()
+);
+
+create index if not exists credentials_user_kind_idx
+    on public.credentials (user_id, kind, uploaded_at desc);
+
+alter table public.credentials enable row level security;
+
+drop policy if exists "users manage own credentials" on public.credentials;
+create policy "users manage own credentials" on public.credentials
+    for all using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+drop policy if exists "admins read all credentials" on public.credentials;
+create policy "admins read all credentials" on public.credentials
+    for select using (public.is_admin());
+
+-- Storage bucket for credential files (images + PDFs).
+insert into storage.buckets (id, name, public)
+values ('credentials', 'credentials', false)
+on conflict (id) do nothing;
+
+drop policy if exists "users manage own credential files" on storage.objects;
+create policy "users manage own credential files" on storage.objects
+    for all
+    using (bucket_id = 'credentials' and name like (auth.uid()::text || '/%'))
+    with check (bucket_id = 'credentials' and name like (auth.uid()::text || '/%'));
+
+drop policy if exists "admins read all credential files" on storage.objects;
+create policy "admins read all credential files" on storage.objects
+    for select using (bucket_id = 'credentials' and public.is_admin());

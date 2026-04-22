@@ -35,6 +35,8 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Clock In uses your location to record where you clocked in and out."
+        INFOPLIST_KEY_NSCameraUsageDescription: "Clock In uses the camera so you can take photos of your OSHA 30 card, flagger card, and other credentials."
+        INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Clock In uses your photo library so you can attach photos of your credentials from your camera roll."
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: "NO"
         GENERATE_INFOPLIST_FILE: "YES"
         CURRENT_PROJECT_VERSION: "1"
