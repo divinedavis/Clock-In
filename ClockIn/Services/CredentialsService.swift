@@ -25,7 +25,9 @@ final class CredentialsService {
         contentType: String
     ) async throws -> Credential {
         let id = UUID()
-        let path = "\(userId.uuidString)/\(kind.rawValue)/\(id.uuidString).\(ext)"
+        // Supabase RLS policies compare to auth.uid()::text (lowercase canonical form);
+        // Swift's UUID.uuidString is uppercase, so we must lowercase it to match.
+        let path = "\(userId.uuidString.lowercased())/\(kind.rawValue)/\(id.uuidString.lowercased()).\(ext)"
         _ = try await client.storage.from(bucket).upload(
             path,
             data: data,

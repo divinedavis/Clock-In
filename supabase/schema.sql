@@ -534,3 +534,31 @@ create policy "users manage own credential files" on storage.objects
 drop policy if exists "admins read all credential files" on storage.objects;
 create policy "admins read all credential files" on storage.objects
     for select using (bucket_id = 'credentials' and public.is_admin());
+
+-- Account deletion: wipes the user's storage objects then cascades via auth.users.
+create or replace function public.delete_my_account()
+returns void
+security definer
+set search_path = public, auth, storage
+language plpgsql
+as $$
+declare
+    uid uuid := auth.uid();
+begin
+    if uid is null then
+        raise exception 'not authenticated';
+    end if;
+
+    delete from storage.objects
+    where bucket_id = 'credentials'
+      and name like uid::text || '/%';
+
+    delete from storage.objects
+    where bucket_id = 'forms'
+      and name like 'submitted/' || uid::text || '/%';
+
+    delete from auth.users where id = uid;
+end;
+$$;
+
+grant execute on function public.delete_my_account() to authenticated;

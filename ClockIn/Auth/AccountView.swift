@@ -4,6 +4,9 @@ struct AccountView: View {
     @EnvironmentObject var auth: AuthViewModel
     @State private var showUploadW4 = false
     @State private var showUploadDirectDeposit = false
+    @State private var uploadingKind: CredentialKind?
+    @State private var credentialRefreshToken = UUID()
+    @State private var showDeleteConfirm = false
 
     var body: some View {
         NavigationStack {
@@ -32,8 +35,15 @@ struct AccountView: View {
                         }
                     }
 
-                    CredentialsSection(kind: .osha30)
-                    CredentialsSection(kind: .flaggerCard)
+                    CredentialsSection(
+                        kind: .osha30,
+                        refreshToken: credentialRefreshToken
+                    ) { uploadingKind = .osha30 }
+
+                    CredentialsSection(
+                        kind: .flaggerCard,
+                        refreshToken: credentialRefreshToken
+                    ) { uploadingKind = .flaggerCard }
                 }
 
                 Section("Forms") {
@@ -65,6 +75,9 @@ struct AccountView: View {
                     Button("Sign Out", role: .destructive) {
                         Task { await auth.signOut() }
                     }
+                    Button("Delete Account", role: .destructive) {
+                        showDeleteConfirm = true
+                    }
                 }
             }
             .navigationTitle("Account")
@@ -74,16 +87,35 @@ struct AccountView: View {
             .sheet(isPresented: $showUploadDirectDeposit) {
                 UploadFormSheet(initialTitle: "Direct Deposit") { /* no-op */ }
             }
+            .sheet(item: $uploadingKind) { kind in
+                CredentialUploadSheet(kind: kind) {
+                    credentialRefreshToken = UUID()
+                }
+                .environmentObject(auth)
+            }
+            .confirmationDialog(
+                "Delete your account?",
+                isPresented: $showDeleteConfirm,
+                titleVisibility: .visible
+            ) {
+                Button("Delete Permanently", role: .destructive) {
+                    Task { await auth.deleteAccount() }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This permanently deletes your account and all of your time entries, uploaded credentials, and form submissions. This can't be undone.")
+            }
         }
     }
 }
 
 private struct CredentialsSection: View {
     let kind: CredentialKind
+    let refreshToken: UUID
+    let onUpload: () -> Void
 
     @State private var items: [Credential] = []
     @State private var isLoading = false
-    @State private var showUpload = false
     @State private var errorMessage: String?
     @Environment(\.openURL) private var openURL
 
@@ -117,7 +149,7 @@ private struct CredentialsSection: View {
             }
 
             Button {
-                showUpload = true
+                onUpload()
             } label: {
                 Label("Upload \(kind.title)", systemImage: "square.and.arrow.up")
             }
@@ -126,10 +158,7 @@ private struct CredentialsSection: View {
                 Text(errorMessage).font(.caption).foregroundStyle(.red)
             }
         }
-        .task { await load() }
-        .sheet(isPresented: $showUpload) {
-            CredentialUploadSheet(kind: kind) { await load() }
-        }
+        .task(id: refreshToken) { await load() }
     }
 
     private func load() async {

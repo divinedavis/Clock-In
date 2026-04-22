@@ -108,6 +108,22 @@ final class AuthViewModel: ObservableObject {
         }
     }
 
+    func deleteAccount() async {
+        isWorking = true
+        errorMessage = nil
+        defer { isWorking = false }
+        do {
+            _ = try await client.rpc("delete_my_account").execute()
+            // Row is gone; the old session will be rejected on next request.
+            try? await client.auth.signOut()
+        } catch {
+            #if DEBUG
+            print("Account deletion failed: \(error)")
+            #endif
+            errorMessage = "Couldn't delete your account. Try again."
+        }
+    }
+
     private func refreshIsAdmin() async {
         do {
             let value: Bool = try await client.rpc("is_admin").execute().value

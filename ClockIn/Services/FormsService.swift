@@ -74,7 +74,9 @@ final class FormsService {
     }
 
     func submitFilled(formId: UUID, userId: UUID, data: Data) async throws {
-        let path = "submitted/\(userId.uuidString)/\(formId.uuidString).pdf"
+        // Supabase RLS policies compare to auth.uid()::text (lowercase canonical form);
+        // Swift's UUID.uuidString is uppercase, so we must lowercase it to match.
+        let path = "submitted/\(userId.uuidString.lowercased())/\(formId.uuidString.lowercased()).pdf"
         _ = try await client.storage.from(bucket).upload(
             path,
             data: data,
