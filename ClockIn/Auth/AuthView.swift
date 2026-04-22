@@ -24,7 +24,7 @@ struct AuthView: View {
         .sheet(isPresented: $showEmail) {
             EmailAuthView()
                 .environmentObject(auth)
-                .presentationDetents([.medium, .large])
+                .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
     }
@@ -188,41 +188,68 @@ private struct EmailAuthView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            VStack(spacing: 16) {
-                Text(mode == .signIn ? "Welcome back" : "Create your account")
-                    .font(.title2.weight(.semibold))
-                    .padding(.top, 8)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack {
+                    Button("Cancel") { dismiss() }
+                        .foregroundStyle(.primary)
+                    Spacer()
+                }
+                .padding(.top, 8)
 
-                VStack(spacing: 10) {
-                    TextField("Email", text: $email)
-                        .textContentType(.emailAddress)
-                        .textInputAutocapitalization(.never)
-                        .keyboardType(.emailAddress)
-                        .padding()
-                        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                Text(mode == .signIn ? "Welcome back." : "Let's get started.")
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 28)
 
-                    SecureField("Password", text: $password)
-                        .textContentType(mode == .signIn ? .password : .newPassword)
-                        .padding()
-                        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                Text(mode == .signIn ? "Sign in to\nClock In." : "Join\nClock In.")
+                    .font(.system(size: 44, weight: .bold, design: .rounded))
+                    .foregroundStyle(.primary)
+                    .padding(.top, 6)
+                    .fixedSize(horizontal: false, vertical: true)
 
+                Text("Clock in and clock out from anywhere — see where every hour of your week went.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .padding(.top, 12)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                VStack(spacing: 0) {
+                    underlinedField(
+                        "Email",
+                        text: $email,
+                        isSecure: false,
+                        contentType: .emailAddress,
+                        keyboard: .emailAddress
+                    )
+                    underlinedField(
+                        "Password",
+                        text: $password,
+                        isSecure: true,
+                        contentType: mode == .signIn ? .password : .newPassword
+                    )
                     if mode == .signUp {
-                        SecureField("Confirm password", text: $confirmPassword)
-                            .textContentType(.newPassword)
-                            .padding()
-                            .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12))
+                        underlinedField(
+                            "Confirm password",
+                            text: $confirmPassword,
+                            isSecure: true,
+                            contentType: .newPassword
+                        )
                     }
                 }
+                .padding(.top, 32)
 
                 if mode == .signUp, !confirmPassword.isEmpty, password != confirmPassword {
                     Text("Passwords don't match")
                         .font(.footnote).foregroundStyle(.red)
+                        .padding(.top, 12)
                 }
 
                 if let error = auth.errorMessage {
                     Text(error)
-                        .font(.footnote).foregroundStyle(.red).multilineTextAlignment(.center)
+                        .font(.footnote).foregroundStyle(.red)
+                        .padding(.top, 12)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
 
                 Button(action: submit) {
@@ -230,28 +257,70 @@ private struct EmailAuthView: View {
                         if auth.isWorking {
                             ProgressView().tint(.white)
                         } else {
-                            Text(mode == .signIn ? "Sign In" : "Sign Up").fontWeight(.semibold)
+                            Text(mode == .signIn ? "Sign In" : "Create Account")
+                                .font(.system(size: 17, weight: .semibold))
                         }
                     }
-                    .frame(maxWidth: .infinity).padding()
-                    .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 12))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 54)
+                    .background(canSubmit ? Color.black : Color(.systemGray3), in: Capsule())
                     .foregroundStyle(.white)
                 }
                 .disabled(!canSubmit)
+                .padding(.top, 32)
 
-                Button(mode == .signIn ? "Need an account? Sign up" : "Have an account? Sign in") {
-                    mode = (mode == .signIn) ? .signUp : .signIn
-                    confirmPassword = ""
-                    auth.errorMessage = nil
+                Button {
+                    withAnimation {
+                        mode = (mode == .signIn) ? .signUp : .signIn
+                        confirmPassword = ""
+                        auth.errorMessage = nil
+                    }
+                } label: {
+                    Text(mode == .signIn ? "Don't have an account? Sign up" : "Already have an account? Sign in")
+                        .font(.subheadline)
+                        .foregroundStyle(.primary)
+                        .underline()
                 }
-                .font(.footnote)
-
-                Spacer()
+                .frame(maxWidth: .infinity)
+                .padding(.top, 20)
             }
             .padding(.horizontal, 24)
-            .onChange(of: auth.state) { _, new in
-                if new == .signedIn { dismiss() }
+            .padding(.bottom, 32)
+        }
+        .scrollIndicators(.hidden)
+        .scrollDismissesKeyboard(.interactively)
+        .onChange(of: auth.state) { _, new in
+            if new == .signedIn { dismiss() }
+        }
+    }
+
+    @ViewBuilder
+    private func underlinedField(
+        _ label: String,
+        text: Binding<String>,
+        isSecure: Bool,
+        contentType: UITextContentType? = nil,
+        keyboard: UIKeyboardType = .default
+    ) -> some View {
+        VStack(spacing: 0) {
+            Group {
+                if isSecure {
+                    SecureField(label, text: text)
+                        .textContentType(contentType)
+                } else {
+                    TextField(label, text: text)
+                        .textContentType(contentType)
+                        .textInputAutocapitalization(.never)
+                        .keyboardType(keyboard)
+                        .autocorrectionDisabled()
+                }
             }
+            .font(.body)
+            .padding(.vertical, 14)
+
+            Rectangle()
+                .fill(Color(.separator))
+                .frame(height: 0.5)
         }
     }
 
