@@ -34,10 +34,11 @@ struct AuthView: View {
     private var backgroundGradient: some View {
         LinearGradient(
             stops: [
-                .init(color: Color(red: 0.98, green: 0.98, blue: 1.0), location: 0.0),
-                .init(color: Color(red: 0.88, green: 0.94, blue: 1.0), location: 0.45),
-                .init(color: Color(red: 0.30, green: 0.55, blue: 0.98), location: 0.75),
-                .init(color: Color(red: 0.15, green: 0.35, blue: 0.85), location: 1.0),
+                .init(color: .white, location: 0.0),
+                .init(color: .white, location: 0.46),
+                .init(color: Color(red: 0.78, green: 0.88, blue: 1.0), location: 0.54),
+                .init(color: Color(red: 0.35, green: 0.60, blue: 0.97), location: 0.72),
+                .init(color: Color(red: 0.12, green: 0.38, blue: 0.90), location: 1.0),
             ],
             startPoint: .top,
             endPoint: .bottom
@@ -50,7 +51,7 @@ struct AuthView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Clock In")
                 .font(.system(size: 56, weight: .bold, design: .rounded))
-                .foregroundStyle(Color.primary.opacity(0.06))
+                .foregroundStyle(Color.black.opacity(0.14))
             HStack(spacing: 12) {
                 Image(systemName: "clock.fill")
                     .font(.system(size: 42, weight: .bold))
@@ -61,7 +62,7 @@ struct AuthView: View {
             }
             Text("Clock Out")
                 .font(.system(size: 56, weight: .bold, design: .rounded))
-                .foregroundStyle(Color.primary.opacity(0.06))
+                .foregroundStyle(Color.black.opacity(0.14))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
