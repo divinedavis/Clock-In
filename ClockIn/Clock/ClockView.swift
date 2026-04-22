@@ -205,6 +205,7 @@ private extension UIColor {
 private struct AnalogClock: View {
     let now: Date
     let activeEntry: TimeEntry?
+    @State private var pulse = false
 
     var body: some View {
         GeometryReader { geo in
@@ -262,6 +263,32 @@ private struct AnalogClock: View {
                     .fill(Color.black.opacity(0.35))
                     .frame(width: r * 0.03, height: r * 0.03)
                     .position(center)
+
+                // "Press me" hint — only when clocked out.
+                if activeEntry == nil {
+                    HStack(spacing: r * 0.03) {
+                        Image(systemName: "hand.tap.fill")
+                            .font(.system(size: r * 0.065, weight: .semibold))
+                        Text("PRESS ME")
+                            .font(.system(size: r * 0.065, weight: .heavy, design: .rounded))
+                            .tracking(1.8)
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, r * 0.10)
+                    .padding(.vertical, r * 0.035)
+                    .background(Color.black.opacity(0.45), in: Capsule())
+                    .overlay(Capsule().stroke(Color.white.opacity(0.5), lineWidth: 1))
+                    .shadow(color: .black.opacity(0.25), radius: r * 0.03, y: r * 0.008)
+                    .scaleEffect(pulse ? 1.08 : 1.0)
+                    .position(x: center.x, y: center.y + r * 0.42)
+                    .allowsHitTesting(false)
+                    .transition(.opacity.combined(with: .scale))
+                    .onAppear {
+                        withAnimation(.easeInOut(duration: 1.1).repeatForever(autoreverses: true)) {
+                            pulse = true
+                        }
+                    }
+                }
             }
         }
     }
