@@ -15,6 +15,12 @@ final class HistoryViewModel: ObservableObject {
     private let service = TimeEntryService.shared
 
     func load() async {
+        #if DEBUG
+        if ScreenshotMode.isEnabled {
+            entries = HistoryViewModel.seedEntries()
+            return
+        }
+        #endif
         isLoading = true
         defer { isLoading = false }
         do {
@@ -23,6 +29,47 @@ final class HistoryViewModel: ObservableObject {
             errorMessage = error.localizedDescription
         }
     }
+
+    #if DEBUG
+    // Marketing screenshot support (DEBUG-only, used to capture App Store screenshots). See ScreenshotMode.
+    // Weekday shifts for the last ~5 weeks, ending yesterday (today's shift is
+    // shown live on the Clock tab instead).
+    private static func seedEntries() -> [TimeEntry] {
+        let cal = Calendar.current
+        let today = cal.startOfDay(for: Date())
+        let startMinutes = [0, 5, 10, 15, 20]
+        let shiftHours = [7.75, 8.0, 8.5, 8.25, 9.0]
+        var result: [TimeEntry] = []
+        var dayOffset = 1
+        var weekdaysAdded = 0
+        while weekdaysAdded < 24, dayOffset < 60 {
+            guard let day = cal.date(byAdding: .day, value: -dayOffset, to: today) else { break }
+            dayOffset += 1
+            let weekday = cal.component(.weekday, from: day) // 1 = Sunday, 7 = Saturday
+            guard weekday != 1, weekday != 7 else { continue }
+            guard let clockIn = cal.date(
+                bySettingHour: 7,
+                minute: startMinutes[weekdaysAdded % startMinutes.count],
+                second: 0,
+                of: day
+            ) else { continue }
+            let hours = shiftHours[weekdaysAdded % shiftHours.count]
+            let clockOut = clockIn.addingTimeInterval(hours * 3600)
+            result.append(TimeEntry(
+                id: UUID(),
+                userId: UUID(),
+                clockInAt: clockIn,
+                clockOutAt: clockOut,
+                clockInLat: 40.7128,
+                clockInLng: -74.0060,
+                clockOutLat: 40.7128,
+                clockOutLng: -74.0060
+            ))
+            weekdaysAdded += 1
+        }
+        return result
+    }
+    #endif
 
     func totalForCurrentPeriod(_ range: HistoryView.Range) -> TimeInterval {
         let cal = Calendar.current

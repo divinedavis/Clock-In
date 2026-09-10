@@ -40,7 +40,16 @@ struct ClockView: View {
         .preferredColorScheme(.dark)
         .onReceive(tick) { now = $0 }
         .task {
+            #if DEBUG
+            if ScreenshotMode.isEnabled {
+                location.authorization = .authorizedWhenInUse
+                location.lastLocation = CLLocation(latitude: 40.7128, longitude: -74.0060)
+            } else {
+                location.requestPermissionIfNeeded()
+            }
+            #else
             location.requestPermissionIfNeeded()
+            #endif
             await vm.loadOpenEntry()
         }
         .alert("Error", isPresented: .constant(vm.errorMessage != nil), presenting: vm.errorMessage) { _ in

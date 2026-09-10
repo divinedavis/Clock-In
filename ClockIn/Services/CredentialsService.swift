@@ -9,7 +9,10 @@ final class CredentialsService {
     private let bucket = "credentials"
 
     func myCredentials(kind: CredentialKind) async throws -> [Credential] {
-        try await client.from(table)
+        #if DEBUG
+        if ScreenshotMode.isEnabled { return [] }
+        #endif
+        return try await client.from(table)
             .select()
             .eq("kind", value: kind.rawValue)
             .order("uploaded_at", ascending: false)

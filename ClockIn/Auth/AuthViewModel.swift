@@ -16,6 +16,15 @@ final class AuthViewModel: ObservableObject {
     private var authChangesTask: Task<Void, Never>?
 
     func startObservingAuth() {
+        #if DEBUG
+        if ScreenshotMode.isEnabled {
+            userEmail = "demo@clockin.app"
+            userId = UUID(uuidString: "00000000-0000-0000-0000-0000000000aa")
+            isAdmin = false
+            state = .signedIn
+            return
+        }
+        #endif
         authChangesTask?.cancel()
         authChangesTask = Task { [weak self] in
             guard let self else { return }
@@ -133,3 +142,21 @@ final class AuthViewModel: ObservableObject {
         }
     }
 }
+
+// MARK: - Marketing screenshot support (DEBUG-only, used to capture App Store screenshots)
+//
+// Enabled only by passing `-screenshotMode` (and optionally `-screenshotScreen <name>`)
+// as a simctl launch argument. Never active in a Release build.
+#if DEBUG
+enum ScreenshotMode {
+    static var isEnabled: Bool {
+        ProcessInfo.processInfo.arguments.contains("-screenshotMode")
+    }
+
+    static var screen: String? {
+        let args = ProcessInfo.processInfo.arguments
+        guard let idx = args.firstIndex(of: "-screenshotScreen"), idx + 1 < args.count else { return nil }
+        return args[idx + 1]
+    }
+}
+#endif

@@ -2,11 +2,15 @@ import SwiftUI
 
 struct HistoryView: View {
     @StateObject private var vm = HistoryViewModel()
-    @State private var range: Range = .week
+    @State private var range: Range
 
     enum Range: String, CaseIterable, Identifiable {
         case day = "Day", week = "Week", month = "Month", year = "Year"
         var id: String { rawValue }
+    }
+
+    init(initialRange: Range = .week) {
+        _range = State(initialValue: initialRange)
     }
 
     var body: some View {

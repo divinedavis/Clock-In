@@ -11,7 +11,15 @@ struct RootView: View {
             case .signedOut:
                 AuthView()
             case .signedIn:
+                #if DEBUG
+                if let screen = ScreenshotMode.screen, screen == "historyWeek" || screen == "historyMonth" {
+                    HistoryView(initialRange: screen == "historyMonth" ? .month : .week)
+                } else {
+                    MainTabView()
+                }
+                #else
                 MainTabView()
+                #endif
             }
         }
     }

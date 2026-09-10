@@ -12,6 +12,22 @@ final class ClockViewModel: ObservableObject {
     var isClockedIn: Bool { activeEntry != nil }
 
     func loadOpenEntry() async {
+        #if DEBUG
+        if ScreenshotMode.isEnabled {
+            let clockInAt = Calendar.current.date(byAdding: .minute, value: -222, to: Date()) ?? Date()
+            activeEntry = TimeEntry(
+                id: UUID(),
+                userId: UUID(),
+                clockInAt: clockInAt,
+                clockOutAt: nil,
+                clockInLat: 40.7128,
+                clockInLng: -74.0060,
+                clockOutLat: nil,
+                clockOutLng: nil
+            )
+            return
+        }
+        #endif
         do {
             activeEntry = try await service.openEntry()
         } catch {

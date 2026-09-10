@@ -1,0 +1,14 @@
+{
+  "name": "Clock In",
+  "icon": "/Users/divinedavis/projects/Clock-In/ClockIn/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png",
+  "raw_dir": "/Users/divinedavis/projects/Clock-In/marketing/raw",
+  "out_dir": "/Users/divinedavis/projects/Clock-In/marketing/asc-screenshots-pinterest",
+  "masonry": ["01-clocked-in-timer.png", "03-weekly-totals.png", "02-todays-shifts.png", "04-history.png", "05-account-settings.png"],
+  "panels": [
+    ["01-clocked-in-timer.png", "Clock in with one tap"],
+    ["02-todays-shifts.png", "See your next shift"],
+    ["03-weekly-totals.png", "Every hour, counted"],
+    ["05-account-settings.png", "Keep your cards handy"]
+  ],
+  "stickers": ["⏰", "👷", "🛠️", "✨"]
+}
