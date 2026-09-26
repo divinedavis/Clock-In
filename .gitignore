@@ -30,3 +30,8 @@ scripts/.last-shipped-commit
 
 # Supabase CLI metadata
 supabase/.temp/
+
+# Environment files (secrets)
+.env
+.env.*
+!.env.example
